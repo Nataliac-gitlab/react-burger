@@ -1,0 +1,11 @@
+.grid_list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  list-style-type: none;
+  padding: 0;
+  gap: 10px;
+}
+.type {
+  composes: text text_type_main-medium from global;
+  padding-top: 8px;
+}

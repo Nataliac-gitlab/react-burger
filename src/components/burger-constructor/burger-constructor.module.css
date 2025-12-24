@@ -1,0 +1,36 @@
+.list_container {
+  height: 450px;
+  overflow-y: auto;
+  column-gap: 20px;
+  padding-right: 20px;
+}
+
+.burger_constructor {
+  padding-left: 20px;
+
+  padding-top: 100px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  padding-top: 20px;
+  margin-right: 40px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.element {
+  padding-left: 24px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

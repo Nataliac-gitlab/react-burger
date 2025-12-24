@@ -1,0 +1,19 @@
+.header_item {
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  composes: text text_type_main-default from global;
+  padding-left: 8px;
+  padding-right: 20px;
+}
+.text_inactive {
+  composes: text text_type_main-default text_color_inactive from global;
+  padding-left: 8px;
+  padding-right: 20px;
+}
+
+.icon {
+  padding-left: 20px;
+}

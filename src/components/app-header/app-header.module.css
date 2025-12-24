@@ -1,0 +1,33 @@
+.header {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  height: 80px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  align-items: top;
+  justify-content: space-between;
+  width: 75%;
+  height: 80px;
+  min-width: 600px;
+}
+
+.left_group {
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.right_group {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
