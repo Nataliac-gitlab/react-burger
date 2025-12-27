@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   ConstructorElement,
   CurrencyIcon,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import dataJSON from "../../utils/data.json";
 import { stub } from "../../utils/stub";
 import styles from "./burger-constructor.module.css";
 import { IngredientTypes } from "../../common/types";
+import { Modal } from "../shared/modal/modal";
+import { OrderDetails } from "./order-details";
 
 const getScrollHeight = (windowHeight: number, count: number): number => {
   return Math.min(90 * count, Math.max(90, windowHeight - 500));
@@ -16,10 +19,12 @@ const getScrollHeight = (windowHeight: number, count: number): number => {
 
 export const BurgerConstructor = () => {
   const burger = stub.map((id) => {
-    return dataJSON.find((item) => item._id === id);
+    return dataJSON.find((item) => item._id === id); //???
   });
+
   const bun = burger.find((item) => item?.type === IngredientTypes.bun);
   const rest = burger.filter((item) => item?.type !== IngredientTypes.bun);
+  const [isOpen, setIsOpen] = useState(false);
 
   if (!burger || !bun || !rest) {
     return null;
@@ -29,7 +34,6 @@ export const BurgerConstructor = () => {
       return acc + (val?.price ? val.price : 0);
     }, 0) + (bun?.price ? 2 * bun?.price : 0);
 
-  //add hoock, it works now after reload
   const windowHeight = window.innerHeight;
 
   return (
@@ -48,7 +52,7 @@ export const BurgerConstructor = () => {
         className={styles.list_container}
         style={{ height: getScrollHeight(windowHeight, rest.length) }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div className={styles.list}>
           {rest &&
             rest.map((item, index) => (
               <div className={styles.row}>
@@ -74,8 +78,8 @@ export const BurgerConstructor = () => {
         />
       </div>
       <footer className={styles.footer}>
-        <p style={{ paddingRight: 8 }}>{sum}</p>
-        <div style={{ paddingRight: 20 }}>
+        <p className="pr-2 text text_type_digits-medium">{sum}</p>
+        <div className="mr-5">
           <CurrencyIcon type="primary" />
         </div>
 
@@ -84,10 +88,19 @@ export const BurgerConstructor = () => {
           type="primary"
           size="medium"
           extraClass="ml-2"
+          onClick={() => setIsOpen(true)}
         >
           Оформить заказ
         </Button>
       </footer>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {
+          setIsOpen(false);
+        }}
+      >
+        <OrderDetails order={"034536"} />
+      </Modal>
     </div>
   );
 };

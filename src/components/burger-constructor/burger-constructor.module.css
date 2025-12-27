@@ -2,13 +2,11 @@
   height: 450px;
   overflow-y: auto;
   column-gap: 20px;
-  padding-right: 20px;
+  composes: pr-4 from global;
 }
 
 .burger_constructor {
-  padding-left: 20px;
-
-  padding-top: 100px;
+  composes: pl-4 pt-25 from global;
 }
 
 .footer {
@@ -16,8 +14,7 @@
   flex-direction: row;
   justify-content: end;
   align-items: center;
-  padding-top: 20px;
-  margin-right: 40px;
+  composes: mt-10 mr-4 from global;
 }
 
 .row {
@@ -28,9 +25,13 @@
 }
 
 .element {
-  padding-left: 24px;
+  composes: pl-8 from global;
   padding-bottom: 10px;
+}
+
+.list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  composes: pl-2 from global;
 }

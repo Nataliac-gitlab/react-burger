@@ -4,16 +4,13 @@
 }
 
 .text {
-  composes: text text_type_main-default from global;
-  padding-left: 8px;
-  padding-right: 20px;
+  composes: mr-5 pl-2 text text_type_main-default from global;
 }
+
 .text_inactive {
-  composes: text text_type_main-default text_color_inactive from global;
-  padding-left: 8px;
-  padding-right: 20px;
+  composes: mr-5 pl-2 text text_type_main-default text_color_inactive from global;
 }
 
 .icon {
-  padding-left: 20px;
+  composes: ml-5 from global;
 }

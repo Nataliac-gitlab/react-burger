@@ -10,6 +10,7 @@ type IngredientItemProps = {
   image: string;
   price: number;
 };
+
 export const IngredientItem = ({ name, image, price }: IngredientItemProps) => {
   const displayCounter =
     name === "Краторная булка N-200i" ||

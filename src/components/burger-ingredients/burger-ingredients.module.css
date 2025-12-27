@@ -8,9 +8,10 @@
   composes: text text_type_main-medium from global;
 }
 .list_container {
+  composes: custom-scroll from global;
   height: 600px;
   overflow-y: auto;
-  column-gap: 20px;
+  column-gap: 24px;
   width: 600px;
 }
 .ingredients_menu {

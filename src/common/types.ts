@@ -1,5 +1,5 @@
 export type IngredientItemType = {
-  id: string;
+  _id: string;
   name: string;
   type: string; //enum
   proteins: number;
@@ -10,7 +10,7 @@ export type IngredientItemType = {
   image: string;
   image_mobile: string;
   image_large: string;
-  v: number;
+  __v: number;
 };
 
 export enum IngredientTypes {
