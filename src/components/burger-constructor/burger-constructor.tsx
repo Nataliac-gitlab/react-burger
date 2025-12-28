@@ -13,28 +13,24 @@ import { IngredientTypes } from "../../common/types";
 import { Modal } from "../shared/modal/modal";
 import { OrderDetails } from "./order-details";
 
-const getScrollHeight = (windowHeight: number, count: number): number => {
-  return Math.min(90 * count, Math.max(90, windowHeight - 500));
+const getScrollMaxHeight = (count: number): number => {
+  return count * 90;
 };
 
 export const BurgerConstructor = () => {
-  const burger = stub.map((id) => {
-    return dataJSON.find((item) => item._id === id); //???
-  });
+  const burger = stub
+    .map((id) => {
+      return dataJSON.find((item) => item._id === id); //Stub, shoult be removed
+    })
+    .filter((el) => el !== undefined);
 
-  const bun = burger.find((item) => item?.type === IngredientTypes.bun);
-  const rest = burger.filter((item) => item?.type !== IngredientTypes.bun);
+  const bunItem = burger.find((item) => item?.type === IngredientTypes.bun);
+  const restItems = burger.filter((item) => item?.type !== IngredientTypes.bun);
   const [isOpen, setIsOpen] = useState(false);
 
-  if (!burger || !bun || !rest) {
-    return null;
-  }
   const sum =
-    rest.reduce((acc, val) => {
-      return acc + (val?.price ? val.price : 0);
-    }, 0) + (bun?.price ? 2 * bun?.price : 0);
-
-  const windowHeight = window.innerHeight;
+    restItems.reduce((acc, item) => acc + (item ? item?.price : 0), 0) +
+    (bunItem ? bunItem.price * 2 : 0);
 
   return (
     <div className={styles.burger_constructor}>
@@ -42,29 +38,27 @@ export const BurgerConstructor = () => {
         <ConstructorElement
           type="top"
           isLocked={true}
-          text={bun?.name + " (верх)"}
-          price={bun?.price || 0}
-          thumbnail={bun?.image || ""}
+          text={bunItem?.name + " (верх)"}
+          price={bunItem?.price || 0}
+          thumbnail={bunItem?.image || ""}
         />
       </div>
 
       <div
         className={styles.list_container}
-        style={{ height: getScrollHeight(windowHeight, rest.length) }}
+        style={{ maxHeight: getScrollMaxHeight(restItems.length) }}
       >
         <div className={styles.list}>
-          {rest &&
-            rest.map((item, index) => (
-              <div className={styles.row}>
-                <DragIcon type="primary" key={index} />
-                <ConstructorElement
-                  key={item?._id}
-                  text={item?.name || ""}
-                  price={item?.price || 0}
-                  thumbnail={item?.image || ""}
-                />
-              </div>
-            ))}
+          {restItems.map((item) => (
+            <div className={styles.row} key={item?._id}>
+              <DragIcon type="primary" />
+              <ConstructorElement
+                text={item?.name || ""}
+                price={item?.price || 0}
+                thumbnail={item?.image || ""}
+              />
+            </div>
+          ))}
         </div>
       </div>
 
@@ -72,9 +66,9 @@ export const BurgerConstructor = () => {
         <ConstructorElement
           type="bottom"
           isLocked={true}
-          text={bun?.name + " (низ)"}
-          price={bun?.price || 0}
-          thumbnail={bun?.image || ""}
+          text={bunItem?.name + " (низ)"}
+          price={bunItem?.price || 0}
+          thumbnail={bunItem?.image || ""}
         />
       </div>
       <footer className={styles.footer}>

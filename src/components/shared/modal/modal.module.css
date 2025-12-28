@@ -1,17 +1,5 @@
-.modal_overlay {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  height: 100%;
-  width: 100%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 60%);
-  border-radius: 15px;
-  z-index: 1000;
-}
 .modal_content {
   position: fixed;
-  opacity: 1;
   width: 390px;
   height: 260px;
   background-color: #1d1c21;
@@ -24,6 +12,7 @@
   composes: pl-10 pr-10 pt-10 pb-15 from global;
   z-index: 1001;
 }
+
 .header {
   composes: text text_type_main-medium from global;
   display: flex;

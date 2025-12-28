@@ -21,7 +21,7 @@ export const AppHeader = () => {
   return (
     <>
       <header className={styles.header}>
-        <div className={styles.menu}>
+        <nav className={styles.menu}>
           <div className={styles.left_group}>
             <HeaderItem
               text={HeaderItemText.constructor}
@@ -70,7 +70,7 @@ export const AppHeader = () => {
               />
             </HeaderItem>
           </div>
-        </div>
+        </nav>
       </header>
     </>
   );
