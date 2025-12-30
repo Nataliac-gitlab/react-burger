@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import { AppHeader } from "./components/app-header/app-header";
-import { BurgerIngredients } from "./components/burger-ingredients/burger-ingredients";
-import { apiURL } from "./common/constants";
+import { AppHeader } from "../app-header/app-header";
+import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
+import { apiURL } from "../../common/constants";
+import styles from "./app.module.css";
+import { BurgerConstructor } from "../burger-constructor/burger-constructor";
 
 function App() {
   const [state, setState] = useState({
@@ -50,11 +52,16 @@ function App() {
   const { data, isLoading, hasError } = state;
 
   return (
-    <div>
+    <div className={styles.app}>
       <AppHeader />
       {isLoading && <span>Щас всё будет...</span>}
       {hasError && <span>Ooops... чё-то не идёт :(</span>}
-      {!isLoading && !hasError && <BurgerIngredients data={data} />}
+      {!isLoading && !hasError && (
+        <section className={styles.main}>
+          <BurgerIngredients data={data} />
+          <BurgerConstructor />
+        </section>
+      )}
     </div>
   );
 }

@@ -1,0 +1,38 @@
+.list_container {
+  height: calc(100vh - 500px);
+  min-height: 90px;
+  overflow-y: auto;
+  column-gap: 20px;
+  composes: pr-4 from global;
+}
+
+.burger_constructor {
+  composes: pl-4 pt-25 from global;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  composes: mt-10 mr-4 from global;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.element {
+  composes: pl-8 from global;
+  padding-bottom: 10px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  composes: pl-2 from global;
+}

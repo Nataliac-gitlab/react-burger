@@ -1,0 +1,16 @@
+.header_item {
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  composes: mr-5 pl-2 text text_type_main-default from global;
+}
+
+.text_inactive {
+  composes: mr-5 pl-2 text text_type_main-default text_color_inactive from global;
+}
+
+.icon {
+  composes: ml-5 from global;
+}
