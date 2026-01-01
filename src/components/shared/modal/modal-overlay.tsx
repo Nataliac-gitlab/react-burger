@@ -1,15 +1,13 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styles from "./modal-overlay.module.css";
 
 type ModalOverlayProps = {
-  isOpen: boolean;
   onClose: () => void;
+  children: ReactNode;
 };
 
-export const ModalOverlay = ({ isOpen, onClose }: ModalOverlayProps) => {
-  if (!isOpen) {
-    return null;
-  }
-
-  return <div className={styles.modal_overlay} onClick={onClose} />;
+export const ModalOverlay = ({ onClose, children }: ModalOverlayProps) => {
+  return (<div className={styles.modal_overlay} onClick={onClose} >
+    {children}
+  </div>);
 };

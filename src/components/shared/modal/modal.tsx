@@ -33,14 +33,18 @@ export const Modal = ({ title, isOpen, onClose, children }: ModalProps) => {
   }
 
   return ReactDOM.createPortal(
-    <div className={styles.modal_content} onClick={(e) => e.stopPropagation()}>
-      <div className={styles.header}>
-        <div>{title}</div>
-        <CloseIcon type="primary" onClick={onClose} />
+    <ModalOverlay onClose={onClose}>
+      <div
+        className={styles.modal_content}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={styles.header}>
+          <div>{title}</div>
+          <CloseIcon type="primary" onClick={onClose} />
+        </div>
+        {children}
       </div>
-      {children}
-      <ModalOverlay isOpen={isOpen} onClose={onClose} />
-    </div>,
+    </ModalOverlay>,
     document.body
   );
 };
