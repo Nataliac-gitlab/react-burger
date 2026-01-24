@@ -1,40 +1,28 @@
 import React, { useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import {
-  AllIngredients,
-  IngredientItemType,
-  IngredientTypes,
-} from "../../common/types";
+import { AllIngredients, IngredientTypes } from "../../common/types";
 import { IngredientsGroup } from "./ingredients-group/ingredient-group";
 import styles from "./burger-ingredients.module.css";
 import { Modal } from "../shared/modal/modal";
 import { IngredientDetails } from "./ingredient-details/ingredient-details";
+import { removeCurrentIngredientId } from "./ingredient-details/redux/slice";
+import { getIngredientId } from "./ingredient-details/redux/selectors";
+import { useSelector, useDispatch } from "react-redux";
 
-type BurgerIngredientsProps = {
-  data: IngredientItemType[];
-};
-
-export const BurgerIngredients = ({ data }: BurgerIngredientsProps) => {
+export const BurgerIngredients = () => {
   const [current, setCurrent] = useState<IngredientTypes>(IngredientTypes.bun);
   const ingredientTypesArray = Object.values(IngredientTypes);
   const index = ingredientTypesArray.indexOf(current);
   const rest =
     index === -1 ? ingredientTypesArray : ingredientTypesArray.slice(index);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentIngredient, setCurrentIngredient] = useState<
-    IngredientItemType | undefined
-  >(undefined);
+  const dispatch = useDispatch();
+  const currentIngredient = useSelector(getIngredientId);
 
-  const handleOnClick = (item: IngredientItemType) => {
-    if (isOpen) {
-      return;
-    }
-    setIsOpen(true);
-    setCurrentIngredient(item);
+  const handleOnClose = () => {
+    dispatch(removeCurrentIngredientId());
   };
-
   return (
     <>
       <div className={styles.ingredients}>
@@ -56,29 +44,18 @@ export const BurgerIngredients = ({ data }: BurgerIngredientsProps) => {
 
         <section className={styles.list_container}>
           {rest.map((type) => {
-            return (
-              <IngredientsGroup
-                key={type}
-                type={type}
-                data={data}
-                onClick={handleOnClick}
-              />
-            );
+            return <IngredientsGroup key={type} type={type} />;
           })}
         </section>
       </div>
 
-      {currentIngredient && isOpen && (
+      {currentIngredient && (
         <Modal
-          isOpen={isOpen}
+          isOpen={currentIngredient !== ""}
           title="Детали ингридиента"
-          onClose={() => {
-            setIsOpen(false);
-          }}
+          onClose={handleOnClose}
         >
-          {currentIngredient && (
-            <IngredientDetails details={currentIngredient} />
-          )}
+          {currentIngredient && <IngredientDetails />}
         </Modal>
       )}
     </>

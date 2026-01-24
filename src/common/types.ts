@@ -13,6 +13,8 @@ export type IngredientItemType = {
   __v: number;
 };
 
+export type IngredientItemsResponce = IngredientItemType[];
+
 export enum IngredientTypes {
   bun = "bun",
   sauce = "sauce",

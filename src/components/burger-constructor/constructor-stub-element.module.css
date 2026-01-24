@@ -1,0 +1,26 @@
+.element {
+  composes: pl-8 from global;
+  padding-bottom: 10px;
+  min-width: 536px;
+}
+
+.stub_bottom,
+.stub_top,
+.stub {
+  composes: constructor-element from global;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stub_top {
+  composes: constructor-element_pos_top from global;
+}
+
+.stub_bottom {
+  composes: constructor-element_pos_bottom from global;
+}
+
+.stub_text {
+  composes: constructor-element__text from global;
+}
