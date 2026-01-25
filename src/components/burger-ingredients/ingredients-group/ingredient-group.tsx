@@ -1,5 +1,5 @@
 import React from "react";
-import { IngredientTypes, AllIngredients } from "../../../common/types";
+import { IngredientTypes, IngredientTitles } from "../../../common/types";
 import styles from "./ingredient-group.module.css";
 import { IngredientItem } from "../ingredient-item/ingredient-item";
 import { setCurrentIngredientId } from "../ingredient-details/redux/slice";
@@ -20,7 +20,7 @@ export const IngredientsGroup = ({ type }: IngredientsGroupProps) => {
   };
   return (
     <>
-      <p className={styles.type}>{AllIngredients[type]}</p>
+      <p className={styles.type}>{IngredientTitles[type]}</p>
       <ul className={styles.grid_list}>
         {group.map((id) => {
           return (

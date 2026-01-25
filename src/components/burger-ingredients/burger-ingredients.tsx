@@ -1,28 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { AllIngredients, IngredientTypes } from "../../common/types";
+import { IngredientTypes, IngredientTitles } from "../../common/types";
 import { IngredientsGroup } from "./ingredients-group/ingredient-group";
 import styles from "./burger-ingredients.module.css";
 import { Modal } from "../shared/modal/modal";
 import { IngredientDetails } from "./ingredient-details/ingredient-details";
 import { removeCurrentIngredientId } from "./ingredient-details/redux/slice";
-import { getIngredientId } from "./ingredient-details/redux/selectors";
+import { getCurrentIngredientId } from "./ingredient-details/redux/selectors";
 import { useSelector, useDispatch } from "react-redux";
 
 export const BurgerIngredients = () => {
-  const [current, setCurrent] = useState<IngredientTypes>(IngredientTypes.bun);
-  const ingredientTypesArray = Object.values(IngredientTypes);
-  const index = ingredientTypesArray.indexOf(current);
-  const rest =
-    index === -1 ? ingredientTypesArray : ingredientTypesArray.slice(index);
-
   const dispatch = useDispatch();
-  const currentIngredient = useSelector(getIngredientId);
+  const currentIngredientId = useSelector(getCurrentIngredientId);
+  const [activeTab, setActiveTab] = useState<IngredientTypes>(
+    IngredientTypes.bun
+  );
+  const ingredientTypesArray = Object.values(IngredientTypes);
+
+  const bunRef = useRef<HTMLDivElement>(null);
+  const sauceRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  const tabsRef = {
+    [IngredientTypes.bun]: bunRef,
+    [IngredientTypes.sauce]: sauceRef,
+    [IngredientTypes.main]: mainRef,
+  };
+
+  const handleTabClick = (type: string) => {
+    const ingredientType = type as IngredientTypes;
+    setActiveTab(ingredientType);
+    tabsRef[ingredientType].current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleScroll = (e: React.UIEvent<HTMLElement>) => {
+    const containerTop = e.currentTarget.getBoundingClientRect().top;
+
+    const bunDiff = Math.abs(
+      tabsRef[IngredientTypes.bun].current!.getBoundingClientRect().top -
+        containerTop
+    );
+    const sauceDiff = Math.abs(
+      tabsRef[IngredientTypes.sauce].current!.getBoundingClientRect().top -
+        containerTop
+    );
+    const mainDiff = Math.abs(
+      tabsRef[IngredientTypes.main].current!.getBoundingClientRect().top -
+        containerTop
+    );
+
+    const minDiff = Math.min(bunDiff, sauceDiff, mainDiff);
+
+    if (minDiff === bunDiff) setActiveTab(IngredientTypes.bun);
+    else if (minDiff === sauceDiff) setActiveTab(IngredientTypes.sauce);
+    else setActiveTab(IngredientTypes.main);
+  };
 
   const handleOnClose = () => {
     dispatch(removeCurrentIngredientId());
   };
+
   return (
     <>
       <div className={styles.ingredients}>
@@ -34,30 +72,29 @@ export const BurgerIngredients = () => {
             <Tab
               key={type}
               value={type}
-              active={current === type}
-              onClick={() => setCurrent(type)}
+              active={activeTab === type}
+              onClick={handleTabClick}
             >
-              {AllIngredients[type]}
+              {IngredientTitles[type]}
             </Tab>
           ))}
         </div>
 
-        <section className={styles.list_container}>
-          {rest.map((type) => {
-            return <IngredientsGroup key={type} type={type} />;
-          })}
+        <section className={styles.list_container} onScroll={handleScroll}>
+          {ingredientTypesArray.map((type) => (
+            <div key={type} ref={tabsRef[type]}>
+              <IngredientsGroup key={type} type={type} />
+            </div>
+          ))}
         </section>
       </div>
-
-      {currentIngredient && (
-        <Modal
-          isOpen={currentIngredient !== ""}
-          title="Детали ингридиента"
-          onClose={handleOnClose}
-        >
-          {currentIngredient && <IngredientDetails />}
-        </Modal>
-      )}
+      <Modal
+        isOpen={currentIngredientId !== ""}
+        title="Детали ингридиента"
+        onClose={handleOnClose}
+      >
+        {currentIngredientId && <IngredientDetails />}
+      </Modal>
     </>
   );
 };

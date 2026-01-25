@@ -21,14 +21,8 @@ export enum IngredientTypes {
   main = "main",
 }
 
-export enum IngredientTitles {
-  bun = "Булки",
-  sauce = "Соусы",
-  main = "Начинка",
-}
-
-export const AllIngredients: Record<IngredientTypes, IngredientTitles> = {
-  bun: IngredientTitles.bun,
-  sauce: IngredientTitles.sauce,
-  main: IngredientTitles.main,
+export const IngredientTitles: Record<IngredientTypes, string> = {
+  [IngredientTypes.bun]: "Булки",
+  [IngredientTypes.sauce]: "Соусы",
+  [IngredientTypes.main]: "Начинка",
 };
