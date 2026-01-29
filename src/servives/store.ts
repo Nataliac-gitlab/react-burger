@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { reactBurgerApi } from "./api";
-import ingredientsReducer from "../components/burger-ingredients/redux/slice";
-import constructorReducer from "../components/burger-constructor/redux/slice";
-import ingredientDetailsReducer from "../components/burger-ingredients/ingredient-details/redux/slice";
+import ingredientsReducer from "../components/burger-ingredients/services/slice";
+import constructorReducer from "../components/burger-constructor/services/slice";
+import ingredientDetailsReducer from "../components/burger-ingredients/ingredient-details/services/slice";
 
 export const store = configureStore({
   reducer: {

@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { RootState } from "../../../../redux/store";
-import { getBurgerIngredientsByIds } from "../../../burger-ingredients/redux/selectors";
+import { RootState } from "../../../../servives/store";
+import { getBurgerIngredientsByIds } from "../../services/selectors";
 
 export const getCurrentIngredientId = (state: RootState) =>
   state.ingredientDetails.ingredientId;
@@ -14,5 +14,5 @@ export const getIngredientDetails = createSelector(
     const { image, name, calories, proteins, fat, carbohydrates } =
       ingredients[id];
     return { image, name, calories, proteins, fat, carbohydrates };
-  }
+  },
 );

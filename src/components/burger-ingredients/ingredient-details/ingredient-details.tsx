@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
-import { getIngredientDetails } from "./redux/selectors";
+import { getIngredientDetails } from "./services/selectors";
 
 export const IngredientDetails = () => {
   const details = useSelector(getIngredientDetails);

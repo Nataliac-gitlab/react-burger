@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 import { IngredientItemType } from "../../../common/types";
-//type IngredientItemType: string;
 
 export type IngredientsById = Record<string, IngredientItemType>;
 
@@ -20,10 +19,10 @@ const burgerIngredientsSlice = createSlice({
   reducers: {
     setBurgerIngredients: (
       state,
-      { payload }: PayloadAction<IngredientItemType[]>
+      { payload }: PayloadAction<IngredientItemType[]>,
     ) => {
       state.ingredientsById = Object.fromEntries(
-        payload.map((item) => [item._id, item])
+        payload.map((item) => [item._id, item]),
       );
     },
   },

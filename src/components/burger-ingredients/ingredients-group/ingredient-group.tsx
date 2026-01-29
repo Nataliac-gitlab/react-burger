@@ -2,8 +2,8 @@ import React from "react";
 import { IngredientTypes, IngredientTitles } from "../../../common/types";
 import styles from "./ingredient-group.module.css";
 import { IngredientItem } from "../ingredient-item/ingredient-item";
-import { setCurrentIngredientId } from "../ingredient-details/redux/slice";
-import { getIngredientIdsByType } from "../../burger-ingredients/redux/selectors";
+import { setCurrentIngredientId } from "../ingredient-details/services/slice";
+import { getIngredientIdsByType } from "../services/selectors";
 import { useDispatch, useSelector } from "react-redux";
 
 type IngredientsGroupProps = {

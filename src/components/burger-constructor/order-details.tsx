@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import styles from "./order-details.module.css";
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useGetOrderQuery } from "../../redux/api";
-import { getOrderRequest, getOrder } from "./redux/selectors";
-import { setOrder } from "./redux/slice";
+import { useGetOrderQuery } from "../../servives/api";
+import { getOrderRequest, getOrder } from "./services/selectors";
+import { setOrder } from "./services/slice";
 import { useSelector, useDispatch } from "react-redux";
 
 export const OrderDetails = () => {

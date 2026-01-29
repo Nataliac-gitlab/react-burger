@@ -6,15 +6,15 @@ import { IngredientsGroup } from "./ingredients-group/ingredient-group";
 import styles from "./burger-ingredients.module.css";
 import { Modal } from "../shared/modal/modal";
 import { IngredientDetails } from "./ingredient-details/ingredient-details";
-import { removeCurrentIngredientId } from "./ingredient-details/redux/slice";
-import { getCurrentIngredientId } from "./ingredient-details/redux/selectors";
+import { removeCurrentIngredientId } from "./ingredient-details/services/slice";
+import { getCurrentIngredientId } from "./ingredient-details/services/selectors";
 import { useSelector, useDispatch } from "react-redux";
 
 export const BurgerIngredients = () => {
   const dispatch = useDispatch();
   const currentIngredientId = useSelector(getCurrentIngredientId);
   const [activeTab, setActiveTab] = useState<IngredientTypes>(
-    IngredientTypes.bun
+    IngredientTypes.bun,
   );
   const ingredientTypesArray = Object.values(IngredientTypes);
 
@@ -39,15 +39,15 @@ export const BurgerIngredients = () => {
 
     const bunDiff = Math.abs(
       tabsRef[IngredientTypes.bun].current!.getBoundingClientRect().top -
-        containerTop
+        containerTop,
     );
     const sauceDiff = Math.abs(
       tabsRef[IngredientTypes.sauce].current!.getBoundingClientRect().top -
-        containerTop
+        containerTop,
     );
     const mainDiff = Math.abs(
       tabsRef[IngredientTypes.main].current!.getBoundingClientRect().top -
-        containerTop
+        containerTop,
     );
 
     const minDiff = Math.min(bunDiff, sauceDiff, mainDiff);

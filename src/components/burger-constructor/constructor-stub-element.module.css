@@ -4,8 +4,6 @@
   min-width: 536px;
 }
 
-.stub_bottom,
-.stub_top,
 .stub {
   composes: constructor-element from global;
   display: flex;
@@ -23,4 +21,8 @@
 
 .stub_text {
   composes: constructor-element__text from global;
+}
+
+.stub_hover {
+  border: 1px solid lightblue;
 }

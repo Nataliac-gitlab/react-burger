@@ -5,10 +5,12 @@ import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
 import styles from "./app.module.css";
 import { BurgerConstructor } from "../burger-constructor/burger-constructor";
 
-import { useGetIngredientItemsQuery } from "../../redux/api";
+import { useGetIngredientItemsQuery } from "../../servives/api";
 
 import { useDispatch } from "react-redux";
-import { setBurgerIngredients } from "../burger-ingredients/redux/slice";
+import { setBurgerIngredients } from "../burger-ingredients/services/slice";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
   const {
@@ -32,8 +34,10 @@ function App() {
       {isError && <span>Ooops... чё-то не идёт :(</span>}
       {!isLoading && !isError && (
         <section className={styles.main}>
-          <BurgerIngredients />
-          <BurgerConstructor />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </DndProvider>
         </section>
       )}
     </div>

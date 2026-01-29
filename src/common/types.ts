@@ -1,7 +1,7 @@
 export type IngredientItemType = {
   _id: string;
   name: string;
-  type: string; //enum
+  type: string;
   proteins: number;
   fat: number;
   carbohydrates: number;
@@ -26,3 +26,8 @@ export const IngredientTitles: Record<IngredientTypes, string> = {
   [IngredientTypes.sauce]: "Соусы",
   [IngredientTypes.main]: "Начинка",
 };
+
+export interface DraggedIngredientItem {
+  id: string;
+  type?: string;
+}
