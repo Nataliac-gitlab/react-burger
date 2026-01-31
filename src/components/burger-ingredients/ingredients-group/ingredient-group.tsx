@@ -4,16 +4,16 @@ import styles from "./ingredient-group.module.css";
 import { IngredientItem } from "../ingredient-item/ingredient-item";
 import { setCurrentIngredientId } from "../ingredient-details/services/slice";
 import { getIngredientIdsByType } from "../services/selectors";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../../servives/hooks";
 
 type IngredientsGroupProps = {
   type: IngredientTypes;
 };
 
 export const IngredientsGroup = ({ type }: IngredientsGroupProps) => {
-  const group = useSelector((state) => getIngredientIdsByType(state, type));
+  const group = useAppSelector((state) => getIngredientIdsByType(state, type));
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleOnClick = (id: string) => {
     dispatch(setCurrentIngredientId(id));

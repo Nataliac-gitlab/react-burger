@@ -8,7 +8,7 @@ import {
 import styles from "./burger-constructor.module.css";
 import { Modal } from "../shared/modal/modal";
 import { OrderDetails } from "./order-details";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../servives/hooks";
 import {
   getBun,
   getToppingIdsAndUuids,
@@ -16,17 +16,17 @@ import {
   getScrollMaxHeight,
 } from "./services/selectors";
 import { ConstructorStubElement } from "./constructor-stub-element";
-import { addTopping, addBun } from "./services/slice";
+import { addTopping, addBun, clearBurgerConstructor } from "./services/slice";
 import { useDrop } from "react-dnd";
 import { DraggedIngredientItem } from "./../../common/types";
 import { DraggableTopping } from "./draggable-topping";
 
 export const BurgerConstructor = () => {
-  const dispatch = useDispatch();
-  const bun = useSelector(getBun);
-  const toppingIdsUuids = useSelector(getToppingIdsAndUuids);
-  const totalPrice = useSelector(getTotalPrice);
-  const height = useSelector(getScrollMaxHeight);
+  const dispatch = useAppDispatch();
+  const bun = useAppSelector(getBun);
+  const toppingIdsUuids = useAppSelector(getToppingIdsAndUuids);
+  const totalPrice = useAppSelector(getTotalPrice);
+  const height = useAppSelector(getScrollMaxHeight);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -46,18 +46,17 @@ export const BurgerConstructor = () => {
     DraggedIngredientItem,
     void,
     { isHover: boolean; draggedItem: DraggedIngredientItem }
-  >(
-    {
-      accept: "ingredient",
-      drop(item) {
-        addItem(item);
-      },
+  >({
+    accept: "ingredient",
+    drop(item) {
+      addItem(item);
+    },
 
-      collect: (monitor) => ({
-        draggedItem: monitor.getItem(),
-        isHover: monitor.isOver(),
-      }),
-    });
+    collect: (monitor) => ({
+      draggedItem: monitor.getItem(),
+      isHover: monitor.isOver(),
+    }),
+  });
 
   const isBunHovering = isHover && draggedItem?.type === "bun";
   const isToppingHovering = isHover && draggedItem?.type !== "bun";
@@ -141,14 +140,17 @@ export const BurgerConstructor = () => {
           Оформить заказ
         </Button>
       </footer>
-      <Modal
-        isOpen={isOpen}
-        onClose={() => {
-          setIsOpen(false);
-        }}
-      >
-        <OrderDetails />
-      </Modal>
+
+      {isOpen && (
+        <Modal
+          onClose={() => {
+            setIsOpen(false);
+            dispatch(clearBurgerConstructor());
+          }}
+        >
+          <OrderDetails />
+        </Modal>
+      )}
     </div>
   );
 };

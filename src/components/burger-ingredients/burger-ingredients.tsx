@@ -8,11 +8,11 @@ import { Modal } from "../shared/modal/modal";
 import { IngredientDetails } from "./ingredient-details/ingredient-details";
 import { removeCurrentIngredientId } from "./ingredient-details/services/slice";
 import { getCurrentIngredientId } from "./ingredient-details/services/selectors";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../servives/hooks";
 
 export const BurgerIngredients = () => {
-  const dispatch = useDispatch();
-  const currentIngredientId = useSelector(getCurrentIngredientId);
+  const dispatch = useAppDispatch();
+  const currentIngredientId = useAppSelector(getCurrentIngredientId);
   const [activeTab, setActiveTab] = useState<IngredientTypes>(
     IngredientTypes.bun,
   );
@@ -56,6 +56,7 @@ export const BurgerIngredients = () => {
     else if (minDiff === sauceDiff) setActiveTab(IngredientTypes.sauce);
     else setActiveTab(IngredientTypes.main);
   };
+  const isOpen = currentIngredientId !== "";
 
   const handleOnClose = () => {
     dispatch(removeCurrentIngredientId());
@@ -88,13 +89,11 @@ export const BurgerIngredients = () => {
           ))}
         </section>
       </div>
-      <Modal
-        isOpen={currentIngredientId !== ""}
-        title="Детали ингридиента"
-        onClose={handleOnClose}
-      >
-        {currentIngredientId && <IngredientDetails />}
-      </Modal>
+      {isOpen && (
+        <Modal title="Детали ингридиента" onClose={handleOnClose}>
+          {currentIngredientId && <IngredientDetails />}
+        </Modal>
+      )}
     </>
   );
 };

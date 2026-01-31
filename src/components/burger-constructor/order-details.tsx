@@ -4,12 +4,12 @@ import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-component
 import { useGetOrderQuery } from "../../servives/api";
 import { getOrderRequest, getOrder } from "./services/selectors";
 import { setOrder } from "./services/slice";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../servives/hooks";
 
 export const OrderDetails = () => {
-  const orderRequest = useSelector(getOrderRequest);
-  const order = useSelector(getOrder);
-  const dispatch = useDispatch();
+  const orderRequest = useAppSelector(getOrderRequest);
+  const order = useAppSelector(getOrder);
+  const dispatch = useAppDispatch();
   const orderText = order ? order : "";
 
   const { data, isError, isLoading, isSuccess } =

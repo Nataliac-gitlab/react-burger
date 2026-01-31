@@ -1,9 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
+interface Topping {
+  id: string;
+  uuid: string;
+}
+
 export type BurgerConstructorState = {
   bun: string;
-  toppings: { id: string; uuid: string }[];
+  toppings: Topping[];
   order: number;
 };
 
@@ -20,23 +25,16 @@ const burgerConstructorSlice = createSlice({
     addBun: (state, { payload }: PayloadAction<string>) => {
       state.bun = payload;
     },
-    addTopping: (state, { payload }: PayloadAction<string>) => {
-      const uuid = crypto.randomUUID();
-      state.toppings = [...state.toppings, { id: payload, uuid }];
+    addTopping: {
+      reducer: (state, { payload }: PayloadAction<Topping>) => {
+        state.toppings = [...state.toppings, payload];
+      },
+      prepare: (id: string) => {
+        const uuid = crypto.randomUUID();
+        return { payload: { id, uuid } };
+      },
     },
-    addToppingToIndex: (
-      state,
-      { payload }: PayloadAction<{ id: string; index: number }>,
-    ) => {
-      const { id, index } = payload;
-      const uuid = crypto.randomUUID();
-      const toppings = [
-        ...state.toppings.slice(0, index),
-        { id, uuid },
-        ...state.toppings.slice(index),
-      ];
-      state.toppings = [...toppings];
-    },
+
     removeToppingByIndex: (state, { payload }: PayloadAction<number>) => {
       state.toppings.splice(payload, 1);
     },
@@ -56,6 +54,9 @@ const burgerConstructorSlice = createSlice({
     removeOrder: (state) => {
       state.order = 0;
     },
+    clearBurgerConstructor: (state) => {
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -63,10 +64,10 @@ export const {
   addBun,
   removeToppingByIndex,
   addTopping,
-  addToppingToIndex,
   moveTopping,
   setOrder,
   removeOrder,
+  clearBurgerConstructor,
 } = burgerConstructorSlice.actions;
 
 export default burgerConstructorSlice.reducer;

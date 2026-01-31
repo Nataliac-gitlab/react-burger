@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./ingredient-item.module.css";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../../servives/hooks";
 import {
   Counter,
   CurrencyIcon,
@@ -15,16 +15,18 @@ type IngredientItemProps = {
 };
 
 export const IngredientItem = ({ id }: IngredientItemProps) => {
-  const count = useSelector((state) => getCountById(state, id));
-  const ingredient = useSelector((state) => getIngredientItemById(state, id));
+  const count = useAppSelector((state) => getCountById(state, id));
+  const ingredient = useAppSelector((state) =>
+    getIngredientItemById(state, id),
+  );
 
   const [{ isDrag }, dragRef] = useDrag<
     DraggedIngredientItem,
     unknown,
     { isDrag: boolean }
   >({
-    type:  "ingredient",    
-    item: { id, type: ingredient?.type || ''},
+    type: "ingredient",
+    item: { id, type: ingredient?.type || "" },
     collect: (monitor) => ({
       isDrag: monitor.isDragging(),
     }),
