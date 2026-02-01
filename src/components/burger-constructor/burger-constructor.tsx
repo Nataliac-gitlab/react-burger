@@ -3,76 +3,128 @@ import {
   Button,
   ConstructorElement,
   CurrencyIcon,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import dataJSON from "../../utils/data.json";
-import { stub } from "../../utils/stub";
 import styles from "./burger-constructor.module.css";
-import { IngredientTypes } from "../../common/types";
 import { Modal } from "../shared/modal/modal";
 import { OrderDetails } from "./order-details";
-
-const getScrollMaxHeight = (count: number): number => {
-  return count * 90;
-};
+import { useAppDispatch, useAppSelector } from "../../servives/hooks";
+import {
+  getBun,
+  getToppingIdsAndUuids,
+  getTotalPrice,
+  getScrollMaxHeight,
+} from "./services/selectors";
+import { ConstructorStubElement } from "./constructor-stub-element";
+import { addTopping, addBun, clearBurgerConstructor } from "./services/slice";
+import { useDrop } from "react-dnd";
+import { DraggedIngredientItem } from "./../../common/types";
+import { DraggableTopping } from "./draggable-topping";
 
 export const BurgerConstructor = () => {
-  const burger = stub
-    .map((id) => {
-      return dataJSON.find((item) => item._id === id); //Stub, shoult be removed
-    })
-    .filter((el) => el !== undefined);
+  const dispatch = useAppDispatch();
+  const bun = useAppSelector(getBun);
+  const toppingIdsUuids = useAppSelector(getToppingIdsAndUuids);
+  const totalPrice = useAppSelector(getTotalPrice);
+  const height = useAppSelector(getScrollMaxHeight);
 
-  const bunItem = burger.find((item) => item?.type === IngredientTypes.bun);
-  const restItems = burger.filter((item) => item?.type !== IngredientTypes.bun);
   const [isOpen, setIsOpen] = useState(false);
 
-  const sum =
-    restItems.reduce((acc, item) => acc + (item ? item?.price : 0), 0) +
-    (bunItem ? bunItem.price * 2 : 0);
+  const handleOnClickOrder = () => {
+    setIsOpen(true);
+  };
+
+  const addItem = (item: DraggedIngredientItem) => {
+    if (item.type === "bun") {
+      dispatch(addBun(item.id));
+    } else {
+      dispatch(addTopping(item.id));
+    }
+  };
+
+  const [{ isHover, draggedItem }, dropTarget] = useDrop<
+    DraggedIngredientItem,
+    void,
+    { isHover: boolean; draggedItem: DraggedIngredientItem }
+  >({
+    accept: "ingredient",
+    drop(item) {
+      addItem(item);
+    },
+
+    collect: (monitor) => ({
+      draggedItem: monitor.getItem(),
+      isHover: monitor.isOver(),
+    }),
+  });
+
+  const isBunHovering = isHover && draggedItem?.type === "bun";
+  const isToppingHovering = isHover && draggedItem?.type !== "bun";
 
   return (
-    <div className={styles.burger_constructor}>
-      <div className={styles.element}>
-        <ConstructorElement
+    <div
+      className={styles.burger_constructor}
+      ref={(node) => {
+        dropTarget(node);
+      }}
+    >
+      {!bun && (
+        <ConstructorStubElement
           type="top"
-          isLocked={true}
-          text={bunItem?.name + " (верх)"}
-          price={bunItem?.price || 0}
-          thumbnail={bunItem?.image || ""}
+          text="Выберите булку"
+          isHover={isBunHovering}
         />
-      </div>
+      )}
 
-      <div
-        className={styles.list_container}
-        style={{ maxHeight: getScrollMaxHeight(restItems.length) }}
-      >
+      {bun && (
+        <div className={styles.element}>
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={bun.name + " (верх)"}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        </div>
+      )}
+      {toppingIdsUuids.length === 0 && (
+        <ConstructorStubElement
+          text="Выберите начинку"
+          isHover={isToppingHovering}
+        />
+      )}
+
+      <div className={styles.list_container} style={{ maxHeight: height }}>
         <div className={styles.list}>
-          {restItems.map((item) => (
-            <div className={styles.row} key={item?._id}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={item?.name || ""}
-                price={item?.price || 0}
-                thumbnail={item?.image || ""}
-              />
-            </div>
-          ))}
+          {toppingIdsUuids.map(
+            (item, index) =>
+              item && (
+                <DraggableTopping key={item.uuid} index={index} id={item.id} />
+              ),
+          )}
         </div>
       </div>
 
-      <div className={styles.element}>
-        <ConstructorElement
+      {bun && (
+        <div className={styles.element}>
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={bun.name + " (низ)"}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        </div>
+      )}
+      {!bun && (
+        <ConstructorStubElement
           type="bottom"
-          isLocked={true}
-          text={bunItem?.name + " (низ)"}
-          price={bunItem?.price || 0}
-          thumbnail={bunItem?.image || ""}
+          text="Выберите булку"
+          isHover={isBunHovering}
         />
-      </div>
+      )}
       <footer className={styles.footer}>
-        <p className="pr-2 text text_type_digits-medium">{sum}</p>
+        <p className="pr-2 text text_type_digits-medium">{totalPrice}</p>
         <div className="mr-5">
           <CurrencyIcon type="primary" />
         </div>
@@ -82,19 +134,23 @@ export const BurgerConstructor = () => {
           type="primary"
           size="medium"
           extraClass="ml-2"
-          onClick={() => setIsOpen(true)}
+          onClick={handleOnClickOrder}
+          disabled={!bun}
         >
           Оформить заказ
         </Button>
       </footer>
-      <Modal
-        isOpen={isOpen}
-        onClose={() => {
-          setIsOpen(false);
-        }}
-      >
-        <OrderDetails order={"034536"} />
-      </Modal>
+
+      {isOpen && (
+        <Modal
+          onClose={() => {
+            setIsOpen(false);
+            dispatch(clearBurgerConstructor());
+          }}
+        >
+          <OrderDetails />
+        </Modal>
+      )}
     </div>
   );
 };

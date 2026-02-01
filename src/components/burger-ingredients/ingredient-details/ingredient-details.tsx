@@ -1,12 +1,14 @@
 import React from "react";
-import { IngredientItemType } from "../../../common/types";
 import styles from "./ingredient-details.module.css";
+import { useAppSelector } from "../../../servives/hooks";
+import { getIngredientDetails } from "./services/selectors";
 
-type IngredientDetailsProps = {
-  details: IngredientItemType;
-};
+export const IngredientDetails = () => {
+  const details = useAppSelector(getIngredientDetails);
+  if (!details) {
+    return null;
+  }
 
-export const IngredientDetails = ({ details }: IngredientDetailsProps) => {
   const { image, name, calories, proteins, fat, carbohydrates } = details;
 
   return (
