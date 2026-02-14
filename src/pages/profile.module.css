@@ -1,0 +1,23 @@
+.layout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 70%;
+  min-height: 80vh;
+  min-width: 60vh;
+  overflow: hidden;
+}
+.outlet {
+  flex-grow: 1;
+  overflow-y: auto;
+  min-height: 80vh;
+  width: 100%;
+  composes: ml-15 from global;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

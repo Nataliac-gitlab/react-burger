@@ -4,15 +4,8 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientTypes, IngredientTitles } from "../../common/types";
 import { IngredientsGroup } from "./ingredients-group/ingredient-group";
 import styles from "./burger-ingredients.module.css";
-import { Modal } from "../shared/modal/modal";
-import { IngredientDetails } from "./ingredient-details/ingredient-details";
-import { removeCurrentIngredientId } from "./ingredient-details/services/slice";
-import { getCurrentIngredientId } from "./ingredient-details/services/selectors";
-import { useAppDispatch, useAppSelector } from "../../servives/hooks";
 
 export const BurgerIngredients = () => {
-  const dispatch = useAppDispatch();
-  const currentIngredientId = useAppSelector(getCurrentIngredientId);
   const [activeTab, setActiveTab] = useState<IngredientTypes>(
     IngredientTypes.bun,
   );
@@ -56,44 +49,32 @@ export const BurgerIngredients = () => {
     else if (minDiff === sauceDiff) setActiveTab(IngredientTypes.sauce);
     else setActiveTab(IngredientTypes.main);
   };
-  const isOpen = currentIngredientId !== "";
-
-  const handleOnClose = () => {
-    dispatch(removeCurrentIngredientId());
-  };
 
   return (
-    <>
-      <div className={styles.ingredients}>
-        <div className={styles.title}>
-          <p>Собери бургер</p>
-        </div>
-        <div className={styles.menu}>
-          {ingredientTypesArray.map((type) => (
-            <Tab
-              key={type}
-              value={type}
-              active={activeTab === type}
-              onClick={handleTabClick}
-            >
-              {IngredientTitles[type]}
-            </Tab>
-          ))}
-        </div>
-
-        <section className={styles.list_container} onScroll={handleScroll}>
-          {ingredientTypesArray.map((type) => (
-            <div key={type} ref={tabsRef[type]}>
-              <IngredientsGroup key={type} type={type} />
-            </div>
-          ))}
-        </section>
+    <div className={styles.ingredients}>
+      <div className={styles.title}>
+        <p>Собери бургер</p>
       </div>
-      {isOpen && (
-        <Modal title="Детали ингридиента" onClose={handleOnClose}>
-          {currentIngredientId && <IngredientDetails />}
-        </Modal>
-      )}
-    </>
+      <div className={styles.menu}>
+        {ingredientTypesArray.map((type) => (
+          <Tab
+            key={type}
+            value={type}
+            active={activeTab === type}
+            onClick={handleTabClick}
+          >
+            {IngredientTitles[type]}
+          </Tab>
+        ))}
+      </div>
+
+      <section className={styles.list_container} onScroll={handleScroll}>
+        {ingredientTypesArray.map((type) => (
+          <div key={type} ref={tabsRef[type]}>
+            <IngredientsGroup key={type} type={type} />
+          </div>
+        ))}
+      </section>
+    </div>
   );
 };

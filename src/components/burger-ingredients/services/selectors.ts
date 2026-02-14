@@ -15,8 +15,9 @@ export const getIngredientItemById = createSelector(
     if (!id || !ingredients[id]) {
       return null;
     }
-    const { name, image, price, type } = ingredients[id];
-    return { name, image, price, type };
+    const { name, image, price, type, calories, proteins, fat, carbohydrates } =
+      ingredients[id];
+    return { name, image, price, type, calories, proteins, fat, carbohydrates };
   },
 );
 

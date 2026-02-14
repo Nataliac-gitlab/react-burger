@@ -31,3 +31,9 @@ export interface DraggedIngredientItem {
   id: string;
   type?: string;
 }
+
+export type UserType = {
+  email: string;
+  password?: string;
+  name: string;
+};

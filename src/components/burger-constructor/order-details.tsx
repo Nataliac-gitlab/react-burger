@@ -26,7 +26,7 @@ export const OrderDetails = () => {
   return (
     <div className={styles.container}>
       <div className={styles.order}>{isSuccess && orderText}</div>
-      {(isError || !order) && (
+      {isError && (
         <div className={styles.identifier}>Ошибка создания заказа</div>
       )}
       {isLoading && <div className={styles.identifier}>Создание заказа...</div>}

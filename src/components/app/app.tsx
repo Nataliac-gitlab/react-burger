@@ -1,47 +1,76 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 
-import { AppHeader } from "../app-header/app-header";
-import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
-import styles from "./app.module.css";
-import { BurgerConstructor } from "../burger-constructor/burger-constructor";
+import { Layout } from "../../pages/layout";
+import { Home } from "../../pages/home";
+import { Login } from "../../pages/login";
+import { IngredientModal } from "../burger-ingredients/ingredient-modal";
+import { IngredientDetails } from "../burger-ingredients/ingredient-details/ingredient-details";
+import { Register } from "../../pages/register";
+import { ForgotPassword } from "../../pages/forgot-password";
+import { ResetPassword } from "../../pages/reset-password";
+import { Orders } from "../../pages/orders";
+import { Profile } from "../../pages/profile";
+import { ProfileForm } from "../profile-components/profile-form";
+import { ProtectedRoute } from "../protected-route/protected-route";
 
-import { useGetIngredientItemsQuery } from "../../servives/api";
-
-import { useDispatch } from "react-redux";
-import { setBurgerIngredients } from "../burger-ingredients/services/slice";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-
-function App() {
-  const {
-    data = [],
-    isError,
-    isLoading,
-    isSuccess,
-  } = useGetIngredientItemsQuery();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (isSuccess && data) {
-      dispatch(setBurgerIngredients(data));
-    }
-  }, [isSuccess, data, dispatch]);
+const App = () => {
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      {isLoading && <span>Щас всё будет...</span>}
-      {isError && <span>Ooops... чё-то не идёт :(</span>}
-      {!isLoading && !isError && (
-        <section className={styles.main}>
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </DndProvider>
-        </section>
+    <>
+      <Routes location={background || location}>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route
+            path="profile"
+            element={
+              <ProtectedRoute>
+                {(user) => <Profile user={user} />}
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<ProfileForm />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="orders/:id" element={<Orders />} />
+          </Route>
+          <Route path="login" element={<Login />} />
+          <Route
+            path="register"
+            element={
+              <ProtectedRoute isPublic>
+                <Register />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="forgot-password"
+            element={
+              <ProtectedRoute isPublic>
+                <ForgotPassword />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="reset-password"
+            element={
+              <ProtectedRoute isPublic>
+                <ResetPassword />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="ingredients/:id" element={<IngredientDetails />} />
+          <Route path="*" element={<div>404</div>} />
+        </Route>
+      </Routes>
+      {background && (
+        <Routes>
+          <Route path="/ingredients/:id" element={<IngredientModal />} />
+        </Routes>
       )}
-    </div>
+    </>
   );
-}
+};
 
 export default App;

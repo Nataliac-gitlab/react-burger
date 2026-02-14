@@ -9,6 +9,7 @@ import { getCountById } from "../../burger-constructor/services/selectors";
 import { getIngredientItemById } from "../services/selectors";
 import { useDrag } from "react-dnd";
 import { DraggedIngredientItem } from "./../../../common/types";
+import { NavLink, useLocation } from "react-router-dom";
 
 type IngredientItemProps = {
   id: string;
@@ -19,6 +20,7 @@ export const IngredientItem = ({ id }: IngredientItemProps) => {
   const ingredient = useAppSelector((state) =>
     getIngredientItemById(state, id),
   );
+  const location = useLocation();
 
   const [{ isDrag }, dragRef] = useDrag<
     DraggedIngredientItem,
@@ -49,10 +51,13 @@ export const IngredientItem = ({ id }: IngredientItemProps) => {
           dragRef(node);
         }}
       >
-        <img src={image} alt={name}></img>
-        <p>{name}</p>
+        <NavLink to={`/ingredients/${id}`} state={{ background: location }}>
+          <img src={image} alt={name}></img>
+        </NavLink>
+        <span className={styles.name}>{name}</span>
+
         <div className={styles.price_row}>
-          <p className={styles.price}>{price}</p>
+          <div className={styles.price}>{price}</div>
           <CurrencyIcon type="primary" />
         </div>
       </div>

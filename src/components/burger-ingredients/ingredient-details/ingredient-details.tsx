@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./ingredient-details.module.css";
 import { useAppSelector } from "../../../servives/hooks";
-import { getIngredientDetails } from "./services/selectors";
+import { getIngredientItemById } from "../../burger-ingredients/services/selectors";
+import { useParams } from "react-router-dom";
+import { useGetIngredientItemsQuery } from "../../../servives/api";
+import { useDispatch } from "react-redux";
+import { setBurgerIngredients } from "../../../components/burger-ingredients/services/slice";
 
 export const IngredientDetails = () => {
-  const details = useAppSelector(getIngredientDetails);
+  const { id } = useParams();
+  const details = useAppSelector((state) => getIngredientItemById(state, id));
+  //persist
+  const { data = [], isSuccess } = useGetIngredientItemsQuery();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      dispatch(setBurgerIngredients(data));
+    }
+  }, [isSuccess, data, dispatch]);
+
   if (!details) {
+    console.log("IngredientDetails id", id);
     return null;
   }
 
   const { image, name, calories, proteins, fat, carbohydrates } = details;
+  console.log("IngredientDetails id", id);
 
   return (
     <div className={styles.container}>
