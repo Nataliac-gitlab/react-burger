@@ -9,13 +9,13 @@ interface Topping {
 export type BurgerConstructorState = {
   bun: string;
   toppings: Topping[];
-  order: number;
+  order: number | null;
 };
 
 const initialState: BurgerConstructorState = {
   bun: "",
   toppings: [],
-  order: 0,
+  order: null,
 };
 
 const burgerConstructorSlice = createSlice({

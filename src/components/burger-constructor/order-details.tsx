@@ -12,8 +12,12 @@ export const OrderDetails = () => {
   const dispatch = useAppDispatch();
   const orderText = order ? order : "";
 
-  const { data, isError, isLoading, isSuccess } =
-    useGetOrderQuery(orderRequest);
+  const { data, isError, isLoading, isSuccess } = useGetOrderQuery(
+    orderRequest,
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
 
   useEffect(() => {
     if (isSuccess && data) {

@@ -8,28 +8,36 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLoginMutation } from "../servives/api";
 import { setUser } from "../components/profile-components/services/slice";
-import { getUser } from "../components/profile-components/services/selectors";
-import { useAppDispatch, useAppSelector } from "../servives/hooks";
+import { useAppDispatch } from "../servives/hooks";
 
 export const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const storedUser = useAppSelector(getUser);
 
   const [form, setForm] = useState({ email: "", password: "" });
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
 
   const [loginPost, { isLoading, isError }] = useLoginMutation();
 
-  const isDisabled = isLoading || !form.email || !form.password;
+  const isFormValid =
+    !isLoading &&
+    form.email &&
+    form.password &&
+    isEmailValid &&
+    isPasswordValid;
   const from = location.state?.from?.pathname || "/";
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleOnClick = async (e: FormEvent) => {
     e.preventDefault();
+    if (!isFormValid) {
+      return;
+    }
     try {
       const response = await loginPost({
         email: form.email,
@@ -45,23 +53,19 @@ export const Login = () => {
     }
   };
 
-  console.log("storedUser", storedUser);
-  /*
-  if (storedUser) {
-    console.log('storedUser')
-    return <Navigate to={"/"} />;
-  }
-    */
-
   return (
     <form className={styles.container}>
       <div className={styles.title}>Вход</div>
       <div className={styles.input}>
         <EmailInput
           onChange={onChange}
+          placeholder={"E-mail"}
           value={form.email}
           name={"email"}
-          isIcon={false}
+          isIcon={true}
+          checkValid={(isValid) => {
+            setIsEmailValid(isValid);
+          }}
         />
       </div>
       <div className={styles.input}>
@@ -70,6 +74,9 @@ export const Login = () => {
           value={form.password}
           name={"password"}
           extraClass="mb-2"
+          checkValid={(isValid) => {
+            setIsPasswordValid(isValid);
+          }}
         />
       </div>
       <div className={styles.button}>
@@ -77,7 +84,7 @@ export const Login = () => {
           htmlType="submit"
           type="primary"
           size="medium"
-          disabled={isDisabled}
+          disabled={!isFormValid}
           onClick={handleOnClick}
         >
           {isLoading ? "Вход..." : "Войти"}

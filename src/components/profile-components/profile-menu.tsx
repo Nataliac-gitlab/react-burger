@@ -8,12 +8,9 @@ import { clearUser } from "./services/slice";
 export const ProfileMenu = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [logoutPost, { isLoading }] = useLogoutMutation();
+  const [logoutPost] = useLogoutMutation();
 
   const handleLogout = async () => {
-    if (isLoading) {
-      return;
-    }
     const refreshToken = localStorage.getItem("refreshToken");
     if (refreshToken) {
       try {

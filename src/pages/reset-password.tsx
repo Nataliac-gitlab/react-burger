@@ -5,23 +5,31 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { useResetPasswordMutation } from "../servives/api";
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ code: "", password: "" });
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const [resetPasswordPost, { isLoading, isError }] =
     useResetPasswordMutation();
-  const isDisabled = !form.password || !form.code || isLoading;
+  const isFormValid =
+    form.password && form.code && !isLoading && isPasswordValid;
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleOnClick = async (e: FormEvent) => {
     e.preventDefault();
+    if (!isFormValid) {
+      return;
+    }
     try {
       const response = await resetPasswordPost({
         password: form.password,
@@ -34,9 +42,12 @@ export const ResetPassword = () => {
         navigate("/login", { replace: true });
       }
     } catch (err) {
-      console.log(`Ошибка восстановления пароля: ${err}`);
+      console.error(`Ошибка восстановления пароля: ${err}`);
     }
   };
+  if (from !== "/forgot-password") {
+    return <Navigate to={"/page404"} replace />;
+  }
 
   return (
     <form className={styles.container}>
@@ -49,6 +60,9 @@ export const ResetPassword = () => {
           name={"password"}
           extraClass="mb-2"
           placeholder={"Введите новый пароль"}
+          checkValid={(isValid) => {
+            setIsPasswordValid(isValid);
+          }}
         />
       </div>
       <div className={styles.input}>
@@ -72,7 +86,7 @@ export const ResetPassword = () => {
           type="primary"
           size="medium"
           onClick={handleOnClick}
-          disabled={isDisabled}
+          disabled={!isFormValid}
         >
           {isLoading ? "Сохранения..." : "Сохранить"}
         </Button>

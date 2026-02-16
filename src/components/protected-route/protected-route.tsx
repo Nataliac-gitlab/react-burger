@@ -14,15 +14,14 @@ export const ProtectedRoute = ({
   isPublic = false,
 }: ProtectedRouteProps): JSX.Element | null => {
   const user = useAppSelector(getUser);
+  const token = localStorage.getItem("accessToken");
   const location = useLocation();
-  console.log("PR user location", user, location);
-
-  if (!isPublic && !user) {
+  if (!isPublic && !token) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (user && isPublic) {
-    const from = location.state?.from?.pathname || "/";    
+  if (token && isPublic) {
+    const from = location.state?.from?.pathname || "/";
     return <Navigate to={from} replace />;
   }
 

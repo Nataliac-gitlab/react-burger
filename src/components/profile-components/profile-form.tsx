@@ -22,6 +22,8 @@ export const ProfileForm = () => {
     password: "",
   });
 
+  const [isEmailValid, setIsEmailValid] = useState(true);
+
   const { data, isLoading, isError, isSuccess } = useGetUserQuery(undefined, {
     refetchOnMountOrArgChange: true,
   });
@@ -37,16 +39,24 @@ export const ProfileForm = () => {
     setForm({
       name: user?.name || "",
       email: user?.email || "",
-      password: user?.password || "",
+      password: "",
     });
   };
 
+  const isFormValid =
+    !isUpdating && form.email && form.password && form.name && isEmailValid;
+
   const handleSave = async (e: FormEvent) => {
     e.preventDefault();
+
+    if (!isFormValid) {
+      return;
+    }
     try {
       const updatedUser = await updateUserPost(form).unwrap();
       if (updatedUser.success) {
         dispatch(setUser(updatedUser.user));
+        setForm((prev) => ({ ...prev, password: "" }));
       }
     } catch (err) {
       console.error(`Ошибка сохранения данных пользоватиля: ${err}`);
@@ -55,17 +65,15 @@ export const ProfileForm = () => {
 
   useEffect(() => {
     if (data && data.success && data.user && isSuccess) {
-      setForm({ ...data.user, password: user?.password || "" });
-      dispatch(setUser({ ...data.user, password: user?.password || "" }));
+      setForm({ ...data.user, password: "" });
+      dispatch(setUser({ ...data.user }));
     }
   }, [data, isSuccess, dispatch, user?.password]);
 
-  const isDisabled = isUpdating || !form.email || !form.password || !form.name;
-
   const isFooterVisible =
-    user?.email !== form.email ||
-    user?.password !== form.password ||
-    user?.name !== form.name;
+    form.email !== user?.email ||
+    form.password !== "" ||
+    form.name !== user?.name;
 
   return (
     <form className={styles.container} onSubmit={handleSave}>
@@ -96,6 +104,9 @@ export const ProfileForm = () => {
               value={form.email}
               name="email"
               isIcon={true}
+              checkValid={(isValid) => {
+                setIsEmailValid(isValid);
+              }}
             />
           </div>
           <div className={styles.input}>
@@ -123,7 +134,7 @@ export const ProfileForm = () => {
                   htmlType="submit"
                   type="primary"
                   size="medium"
-                  disabled={isDisabled}
+                  disabled={!isFormValid}
                   onClick={handleSave}
                 >
                   {isUpdating ? "Сохранение..." : "Сохранить"}

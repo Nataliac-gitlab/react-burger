@@ -21,12 +21,10 @@ export const IngredientDetails = () => {
   }, [isSuccess, data, dispatch]);
 
   if (!details) {
-    console.log("IngredientDetails id", id);
     return null;
   }
 
   const { image, name, calories, proteins, fat, carbohydrates } = details;
-  console.log("IngredientDetails id", id);
 
   return (
     <div className={styles.container}>

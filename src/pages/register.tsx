@@ -14,21 +14,33 @@ import { setUser } from "../components/profile-components/services/slice";
 export const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch();
 
   const [form, setForm] = useState({ name: "", email: "", password: "" });
-  const dispatch = useAppDispatch();
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+
   const from = location.state?.from?.pathname || "/";
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const [register, { isLoading, isError }] = useRegisterMutation({});
 
-  const isDisabled = !(form.name && form.password && form.email) || isLoading;
+  const isFormValid =
+    !isLoading &&
+    form.name &&
+    form.email &&
+    form.password &&
+    isEmailValid &&
+    isPasswordValid;
 
   const handleOnClick = async (e: FormEvent) => {
     e.preventDefault();
+    if (!isFormValid) {
+      return;
+    }
     try {
       const response = await register({
         email: form.email,
@@ -41,7 +53,7 @@ export const Register = () => {
         navigate(from, { replace: true });
       }
     } catch (err) {
-      console.log(`Ошибка регистрации ${err}`);
+      console.error(`Ошибка регистрации ${err}`);
     }
   };
 
@@ -69,6 +81,9 @@ export const Register = () => {
           value={form.email}
           name={"email"}
           isIcon={false}
+          checkValid={(isValid) => {
+            setIsEmailValid(isValid);
+          }}
         />
       </div>
       <div className={styles.input}>
@@ -77,6 +92,9 @@ export const Register = () => {
           value={form.password}
           name={"password"}
           extraClass="mb-2"
+          checkValid={(isValid) => {
+            setIsPasswordValid(isValid);
+          }}
         />
       </div>
       <div className={styles.button}>
@@ -84,7 +102,7 @@ export const Register = () => {
           htmlType="submit"
           type="primary"
           size="medium"
-          disabled={isDisabled}
+          disabled={!isFormValid}
           onClick={handleOnClick}
         >
           {isLoading ? "Регистрация..." : "Зарегистрироваться"}

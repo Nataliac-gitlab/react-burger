@@ -20,9 +20,13 @@ import { addTopping, addBun, clearBurgerConstructor } from "./services/slice";
 import { useDrop } from "react-dnd";
 import { DraggedIngredientItem } from "./../../common/types";
 import { DraggableTopping } from "./draggable-topping";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const BurgerConstructor = () => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const bun = useAppSelector(getBun);
   const toppingIdsUuids = useAppSelector(getToppingIdsAndUuids);
   const totalPrice = useAppSelector(getTotalPrice);
@@ -31,7 +35,12 @@ export const BurgerConstructor = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOnClickOrder = () => {
-    setIsOpen(true);
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
+      navigate("/login", { state: { from: location }, replace: true });
+    } else {
+      setIsOpen(true);
+    }
   };
 
   const addItem = (item: DraggedIngredientItem) => {

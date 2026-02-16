@@ -26,8 +26,6 @@ import {
   UserResponse,
   UpdateUserPayload,
 } from "./types";
-//import { useAppDispatch } from "./hooks";
-//import {clearUser} from "../components/profile-components/services/slice";
 
 interface ApiResponse {
   data: IngredientItemType[];
@@ -50,7 +48,6 @@ const baseQueryWrapper: BaseQueryFn<
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  console.log("api1 ", result);
   if (
     result.error &&
     (result.error.status === 401 || result.error.status === 403)
@@ -69,7 +66,6 @@ const baseQueryWrapper: BaseQueryFn<
 
       if (refreshResult.data) {
         const data = refreshResult.data as GetTokenResponse;
-        console.log("api4 ");
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
 

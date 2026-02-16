@@ -10,9 +10,11 @@ import { useForgotPasswordMutation } from "../servives/api";
 export const ForgotPassword = () => {
   const navigate = useNavigate();
   const [email, setStateEmail] = useState<string>("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
+
   const [forgotPasswordPost, { isError, isLoading }] =
     useForgotPasswordMutation();
-  const isDisabled = isLoading || !email;
+  const isFormValid = !isLoading && email && isEmailValid;
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setStateEmail(e.target.value);
@@ -20,13 +22,16 @@ export const ForgotPassword = () => {
 
   const handleOnClick = async (e: FormEvent) => {
     e.preventDefault();
+    if (!isFormValid) {
+      return;
+    }
     try {
       const response = await forgotPasswordPost({ email }).unwrap();
       if (response.success && response.message === "Reset email sent") {
         navigate("/reset-password");
       }
     } catch (err) {
-      console.log(`Ошибка восстановления пароля ${err}`);
+      console.error(`Ошибка восстановления пароля ${err}`);
     }
   };
 
@@ -38,8 +43,11 @@ export const ForgotPassword = () => {
           onChange={onChangeEmail}
           value={email}
           name={"email"}
-          isIcon={false}
+          isIcon={true}
           placeholder="Укажите e-mail"
+          checkValid={(isValid) => {
+            setIsEmailValid(isValid);
+          }}
         />
       </div>
 
@@ -49,7 +57,7 @@ export const ForgotPassword = () => {
           type="primary"
           size="medium"
           onClick={handleOnClick}
-          disabled={isDisabled}
+          disabled={!isFormValid}
         >
           {isLoading ? "Восстановление..." : "Восстановить"}
         </Button>

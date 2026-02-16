@@ -11,7 +11,9 @@ import { ForgotPassword } from "../../pages/forgot-password";
 import { ResetPassword } from "../../pages/reset-password";
 import { Orders } from "../../pages/orders";
 import { Profile } from "../../pages/profile";
+import { Page404 } from "../../pages/page-404";
 import { ProfileForm } from "../profile-components/profile-form";
+
 import { ProtectedRoute } from "../protected-route/protected-route";
 
 const App = () => {
@@ -27,7 +29,7 @@ const App = () => {
             path="profile"
             element={
               <ProtectedRoute>
-                {(user) => <Profile user={user} />}
+                {(user) => <Profile /*user={user}*/ />}
               </ProtectedRoute>
             }
           >
@@ -35,7 +37,14 @@ const App = () => {
             <Route path="orders" element={<Orders />} />
             <Route path="orders/:id" element={<Orders />} />
           </Route>
-          <Route path="login" element={<Login />} />
+          <Route
+            path="login"
+            element={
+              <ProtectedRoute isPublic>
+                <Login />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="register"
             element={
@@ -61,7 +70,7 @@ const App = () => {
             }
           />
           <Route path="ingredients/:id" element={<IngredientDetails />} />
-          <Route path="*" element={<div>404</div>} />
+          <Route path="*" element={<Page404 />} />
         </Route>
       </Routes>
       {background && (
