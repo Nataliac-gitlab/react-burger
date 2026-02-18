@@ -4,11 +4,12 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useForgotPasswordMutation } from "../servives/api";
 
 export const ForgotPassword = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setStateEmail] = useState<string>("");
   const [isEmailValid, setIsEmailValid] = useState(true);
 
@@ -28,7 +29,10 @@ export const ForgotPassword = () => {
     try {
       const response = await forgotPasswordPost({ email }).unwrap();
       if (response.success && response.message === "Reset email sent") {
-        navigate("/reset-password");
+        navigate("/reset-password", {
+          state: { from: location },
+          replace: true,
+        });
       }
     } catch (err) {
       console.error(`Ошибка восстановления пароля ${err}`);
@@ -43,7 +47,7 @@ export const ForgotPassword = () => {
           onChange={onChangeEmail}
           value={email}
           name={"email"}
-          isIcon={true}
+          isIcon={false}
           placeholder="Укажите e-mail"
           checkValid={(isValid) => {
             setIsEmailValid(isValid);

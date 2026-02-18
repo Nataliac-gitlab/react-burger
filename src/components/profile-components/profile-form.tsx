@@ -23,6 +23,8 @@ export const ProfileForm = () => {
   });
 
   const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [message, setMessage] = useState("");
 
   const { data, isLoading, isError, isSuccess } = useGetUserQuery(undefined, {
     refetchOnMountOrArgChange: true,
@@ -39,24 +41,30 @@ export const ProfileForm = () => {
     setForm({
       name: user?.name || "",
       email: user?.email || "",
-      password: "",
+      password: user?.password || "",
     });
   };
 
   const isFormValid =
-    !isUpdating && form.email && form.password && form.name && isEmailValid;
+    !isUpdating &&
+    form.email &&
+    form.password &&
+    form.name &&
+    isEmailValid &&
+    isPasswordValid;
 
   const handleSave = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!isFormValid) {
+      console.error("Невалидные данные");
       return;
     }
     try {
       const updatedUser = await updateUserPost(form).unwrap();
       if (updatedUser.success) {
+        console.log("Данные успешно сохранены");
         dispatch(setUser(updatedUser.user));
-        setForm((prev) => ({ ...prev, password: "" }));
       }
     } catch (err) {
       console.error(`Ошибка сохранения данных пользоватиля: ${err}`);
@@ -65,14 +73,14 @@ export const ProfileForm = () => {
 
   useEffect(() => {
     if (data && data.success && data.user && isSuccess) {
-      setForm({ ...data.user, password: "" });
+      setForm({ ...data.user, password: user?.password || "" });
       dispatch(setUser({ ...data.user }));
     }
   }, [data, isSuccess, dispatch, user?.password]);
 
   const isFooterVisible =
     form.email !== user?.email ||
-    form.password !== "" ||
+    form.password !== user?.password ||
     form.name !== user?.name;
 
   return (
@@ -114,7 +122,11 @@ export const ProfileForm = () => {
               onChange={onChange}
               value={form.password}
               name={"password"}
+              extraClass="mb-2"
               icon="EditIcon"
+              checkValid={(isValid) => {
+                setIsPasswordValid(isValid);
+              }}
             />
           </div>
 
@@ -134,7 +146,7 @@ export const ProfileForm = () => {
                   htmlType="submit"
                   type="primary"
                   size="medium"
-                  disabled={!isFormValid}
+                  disabled={isUpdating}
                   onClick={handleSave}
                 >
                   {isUpdating ? "Сохранение..." : "Сохранить"}

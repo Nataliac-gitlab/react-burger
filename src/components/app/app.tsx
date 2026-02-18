@@ -18,11 +18,11 @@ import { ProtectedRoute } from "../protected-route/protected-route";
 
 const App = () => {
   const location = useLocation();
-  const background = location.state && location.state.background;
+  const background = location.state?.background;
 
   return (
     <>
-      <Routes location={background || location}>
+      <Routes location={background ? background : location}>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route

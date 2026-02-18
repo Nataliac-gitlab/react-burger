@@ -7,7 +7,6 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { apiURL } from "../common/constants";
 import { IngredientItemType } from "../common/types";
-//import { RootState } from "./store";
 import {
   GetOrderResponse,
   GetOrderPayload,
@@ -124,7 +123,7 @@ export const reactBurgerApi = createApi({
         method: "POST",
         body: props,
       }),
-      async onQueryStarted(args, { queryFulfilled }) {
+      async onQueryStarted(props, { queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           localStorage.setItem("accessToken", data.accessToken);
@@ -141,7 +140,7 @@ export const reactBurgerApi = createApi({
         method: "POST",
         body: props,
       }),
-      async onQueryStarted(args, { queryFulfilled }) {
+      async onQueryStarted(props, { queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           localStorage.setItem("accessToken", data.accessToken);

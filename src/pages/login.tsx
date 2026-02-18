@@ -27,6 +27,7 @@ export const Login = () => {
     form.password &&
     isEmailValid &&
     isPasswordValid;
+
   const from = location.state?.from?.pathname || "/";
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +63,7 @@ export const Login = () => {
           placeholder={"E-mail"}
           value={form.email}
           name={"email"}
-          isIcon={true}
+          isIcon={false}
           checkValid={(isValid) => {
             setIsEmailValid(isValid);
           }}
