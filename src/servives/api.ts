@@ -46,7 +46,6 @@ const baseQuery = fetchBaseQuery({
     return headers;
   },
 });
-//const dispatch = useAppDispatch();
 
 const baseQueryWrapper: BaseQueryFn<
   string | FetchArgs,
@@ -96,7 +95,6 @@ export const reactBurgerApi = createApi({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          console.log("data", data);
           dispatch(setBurgerIngredients(data));
         } catch (err) {
           console.error(`Ошибка получения данных ${err}`);

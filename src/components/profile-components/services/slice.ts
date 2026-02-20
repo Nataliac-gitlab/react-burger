@@ -11,8 +11,6 @@ type ProfileState = {
 };
 
 const initialState: ProfileState = {
-  // accessToken: localStorage.getItem('accessToken') || "",
-  // refreshToken: localStorage.getItem('refreshToken') || "",
   user: null,
 };
 
@@ -20,15 +18,6 @@ const profileSlice = createSlice({
   name: "profile",
   initialState,
   reducers: {
-    /*
-    setCredentials: (state, {payload}: PayloadAction<Credentials>) => {
-      state.accessToken = payload.accessToken;
-      state.refreshToken = payload.refreshToken;
-      localStorage.setItem('access_token', payload.accessToken);
-      localStorage.setItem('refresh_token', payload.refreshToken);
-    },
-    */
-
     setUser: (state, { payload }: PayloadAction<UserType>) => {
       state.user = { ...state.user, ...payload };
     },
@@ -38,5 +27,5 @@ const profileSlice = createSlice({
   },
 });
 
-export const { /* setCredentials,*/ setUser, clearUser } = profileSlice.actions;
+export const { setUser, clearUser } = profileSlice.actions;
 export default profileSlice.reducer;
