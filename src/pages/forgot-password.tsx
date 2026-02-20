@@ -21,7 +21,7 @@ export const ForgotPassword = () => {
     setStateEmail(e.target.value);
   };
 
-  const handleOnClick = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!isFormValid) {
       return;
@@ -40,8 +40,8 @@ export const ForgotPassword = () => {
   };
 
   return (
-    <form className={styles.container}>
-      <div className={styles.title}>Восстановление пароля</div>
+    <form className={styles.container} onSubmit={handleSubmit}>
+      <h2 className={styles.title}>Восстановление пароля</h2>
       <div className={styles.input}>
         <EmailInput
           onChange={onChangeEmail}
@@ -60,7 +60,6 @@ export const ForgotPassword = () => {
           htmlType="submit"
           type="primary"
           size="medium"
-          onClick={handleOnClick}
           disabled={!isFormValid}
         >
           {isLoading ? "Восстановление..." : "Восстановить"}

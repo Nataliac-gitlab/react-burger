@@ -1,7 +1,7 @@
 .modal_content {
   position: fixed;
-  width: 390px;
-  height: 260px;
+  width: 420px;
+  height: 390px;
   background-color: #1d1c21;
   transform: translate(-50%, -50%);
   top: 50%;

@@ -7,14 +7,11 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAppDispatch } from "../servives/hooks";
 import { useRegisterMutation } from "../servives/api";
-import { setUser } from "../components/profile-components/services/slice";
 
 export const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useAppDispatch();
 
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [isEmailValid, setIsEmailValid] = useState(true);
@@ -36,7 +33,7 @@ export const Register = () => {
     isEmailValid &&
     isPasswordValid;
 
-  const handleOnClick = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!isFormValid) {
       return;
@@ -48,18 +45,16 @@ export const Register = () => {
         name: form.name,
       }).unwrap();
       if (response.success) {
-        const { user } = response;
-        dispatch(setUser(user));
         navigate(from, { replace: true });
       }
     } catch (err) {
-      console.error(`Ошибка регистрации ${err}`);
+      // console.error(`Ошибка регистрации ${err}`);
     }
   };
 
   return (
-    <form className={styles.container}>
-      <div className={styles.title}>Регистрация</div>
+    <form className={styles.container} onSubmit={handleSubmit}>
+      <h2 className={styles.title}>Регистрация</h2>
       <div className={styles.input}>
         <Input
           type={"text"}
@@ -103,7 +98,6 @@ export const Register = () => {
           type="primary"
           size="medium"
           disabled={!isFormValid}
-          onClick={handleOnClick}
         >
           {isLoading ? "Регистрация..." : "Зарегистрироваться"}
         </Button>

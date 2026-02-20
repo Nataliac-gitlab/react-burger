@@ -7,13 +7,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLoginMutation } from "../servives/api";
-import { setUser } from "../components/profile-components/services/slice";
-import { useAppDispatch } from "../servives/hooks";
 
 export const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useAppDispatch();
 
   const [form, setForm] = useState({ email: "", password: "" });
   const [isEmailValid, setIsEmailValid] = useState(true);
@@ -34,7 +31,7 @@ export const Login = () => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleOnClick = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!isFormValid) {
       return;
@@ -45,18 +42,16 @@ export const Login = () => {
         password: form.password,
       }).unwrap();
       if (response.success) {
-        const { user } = response;
-        dispatch(setUser({ ...user, password: form.password }));
         navigate(from, { replace: true });
       }
     } catch (err) {
-      console.error(`Ошибка входа в систему ${err}`);
+      //console.error(`Ошибка входа в систему ${err}`);
     }
   };
 
   return (
-    <form className={styles.container}>
-      <div className={styles.title}>Вход</div>
+    <form className={styles.container} onSubmit={handleSubmit}>
+      <h2 className={styles.title}>Вход</h2>
       <div className={styles.input}>
         <EmailInput
           onChange={onChange}
@@ -86,7 +81,6 @@ export const Login = () => {
           type="primary"
           size="medium"
           disabled={!isFormValid}
-          onClick={handleOnClick}
         >
           {isLoading ? "Вход..." : "Войти"}
         </Button>

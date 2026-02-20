@@ -65,10 +65,11 @@ export const AppHeader = () => {
             </HeaderItem>
           </NavLink>
         </div>
-
-        <div className={styles.logo}>
-          <Logo />
-        </div>
+        <NavLink to="/">
+          <div className={styles.logo}>
+            <Logo />
+          </div>
+        </NavLink>
 
         <div className={styles.right_group}>
           <NavLink

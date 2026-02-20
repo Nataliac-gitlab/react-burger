@@ -9,7 +9,7 @@ export const IngredientModal = () => {
     navigate("/");
   };
   return (
-    <Modal title="Детали ингридиента" onClose={handleOnClose}>
+    <Modal  onClose={handleOnClose}>
       {<IngredientDetails />}
     </Modal>
   );

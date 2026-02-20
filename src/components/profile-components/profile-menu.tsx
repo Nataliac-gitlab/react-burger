@@ -1,12 +1,9 @@
 import React from "react";
 import styles from "./profile-menu.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../servives/hooks";
 import { useLogoutMutation } from "../../servives/api";
-import { clearUser } from "./services/slice";
 
 export const ProfileMenu = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [logoutPost] = useLogoutMutation();
 
@@ -16,13 +13,10 @@ export const ProfileMenu = () => {
       try {
         const response = await logoutPost({ token: refreshToken }).unwrap();
         if (response.success && response.message === "Successful logout") {
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("refreshToken");
-          dispatch(clearUser());
           navigate("/login", { replace: true });
         }
       } catch (err) {
-        console.error(`Ошибка выхода из системы ${err}`);
+        //console.error(`Ошибка выхода из системы ${err}`);
       }
     }
   };

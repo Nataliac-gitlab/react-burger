@@ -26,6 +26,12 @@ import {
   UpdateUserPayload,
 } from "./types";
 
+import {
+  setUser,
+  clearUser,
+} from "../components/profile-components/services/slice";
+import { setBurgerIngredients } from "../components/burger-ingredients/services/slice";
+
 interface ApiResponse {
   data: IngredientItemType[];
 }
@@ -40,6 +46,7 @@ const baseQuery = fetchBaseQuery({
     return headers;
   },
 });
+//const dispatch = useAppDispatch();
 
 const baseQueryWrapper: BaseQueryFn<
   string | FetchArgs,
@@ -85,6 +92,16 @@ export const reactBurgerApi = createApi({
     getIngredientItems: builder.query<IngredientItemType[], void>({
       query: () => "ingredients",
       transformResponse: (response: ApiResponse) => response.data,
+
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          console.log("data", data);
+          dispatch(setBurgerIngredients(data));
+        } catch (err) {
+          console.error(`Ошибка получения данных ${err}`);
+        }
+      },
     }),
 
     getOrder: builder.query<GetOrderResponse, GetOrderPayload>({
@@ -118,35 +135,37 @@ export const reactBurgerApi = createApi({
     }),
 
     register: builder.mutation<RegisterResponse, RegisterPayload>({
-      query: (props) => ({
+      query: (credentials) => ({
         url: "auth/register",
         method: "POST",
-        body: props,
+        body: credentials,
       }),
-      async onQueryStarted(props, { queryFulfilled }) {
+      async onQueryStarted(credentials, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           localStorage.setItem("accessToken", data.accessToken);
           localStorage.setItem("refreshToken", data.refreshToken);
+          dispatch(setUser({ ...data.user, password: credentials.password }));
         } catch (err) {
-          // Todo
+          console.error(`Ошибка регистрации пользователя: ${err}`);
         }
       },
     }),
 
     login: builder.mutation<LoginResponse, LoginPayload>({
-      query: (props) => ({
+      query: (credentials) => ({
         url: "auth/login",
         method: "POST",
-        body: props,
+        body: credentials,
       }),
-      async onQueryStarted(props, { queryFulfilled }) {
+      async onQueryStarted(credentials, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           localStorage.setItem("accessToken", data.accessToken);
           localStorage.setItem("refreshToken", data.refreshToken);
+          dispatch(setUser({ ...data.user, password: credentials.password }));
         } catch (err) {
-          // Todo
+          console.error(`Ошибка логина: ${err}`);
         }
       },
     }),
@@ -165,6 +184,16 @@ export const reactBurgerApi = createApi({
         method: "POST",
         body: props,
       }),
+      async onQueryStarted(credentials, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          dispatch(clearUser());
+        } catch (err) {
+          console.error(`Ошибка выхода: ${err}`);
+        }
+      },
     }),
 
     getUser: builder.query<UserResponse, void>({
@@ -175,11 +204,19 @@ export const reactBurgerApi = createApi({
     }),
 
     updateUser: builder.mutation<UserResponse, UpdateUserPayload>({
-      query: (props) => ({
+      query: (credentials) => ({
         url: "auth/user",
         method: "PATCH",
-        body: props,
+        body: credentials,
       }),
+      async onQueryStarted(credentials, { dispatch, queryFulfilled }) {
+        try {
+          const response = await queryFulfilled;
+          dispatch(setUser(response.data.user));
+        } catch (err) {
+          console.error(`Ошибка выхода: ${err}`);
+        }
+      },
     }),
   }),
 });

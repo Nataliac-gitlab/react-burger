@@ -25,7 +25,7 @@ export const ResetPassword = () => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleOnClick = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!isFormValid) {
       return;
@@ -50,8 +50,8 @@ export const ResetPassword = () => {
   }
 
   return (
-    <form className={styles.container}>
-      <div className={styles.title}>Восстановление пароля</div>
+    <form className={styles.container} onSubmit={handleSubmit}>
+      <h2 className={styles.title}>Восстановление пароля</h2>
 
       <div className={styles.input}>
         <PasswordInput
@@ -85,7 +85,6 @@ export const ResetPassword = () => {
           htmlType="submit"
           type="primary"
           size="medium"
-          onClick={handleOnClick}
           disabled={!isFormValid}
         >
           {isLoading ? "Сохранения..." : "Сохранить"}

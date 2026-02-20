@@ -24,7 +24,6 @@ export const ProfileForm = () => {
 
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const [message, setMessage] = useState("");
 
   const { data, isLoading, isError, isSuccess } = useGetUserQuery(undefined, {
     refetchOnMountOrArgChange: true,
@@ -61,18 +60,15 @@ export const ProfileForm = () => {
       return;
     }
     try {
-      const updatedUser = await updateUserPost(form).unwrap();
-      if (updatedUser.success) {
-        console.log("Данные успешно сохранены");
-        dispatch(setUser(updatedUser.user));
-      }
+      await updateUserPost(form).unwrap();
+      console.log("Данные успешно сохранены");
     } catch (err) {
       console.error(`Ошибка сохранения данных пользоватиля: ${err}`);
     }
   };
 
   useEffect(() => {
-    if (data && data.success && data.user && isSuccess) {
+    if (isSuccess && data?.user) {
       setForm({ ...data.user, password: user?.password || "" });
       dispatch(setUser({ ...data.user }));
     }
@@ -101,6 +97,7 @@ export const ProfileForm = () => {
               size={"default"}
               icon="EditIcon"
               extraClass="ml-1"
+              disabled={isUpdating}
               onPointerEnterCapture={() => {}}
               onPointerLeaveCapture={() => {}}
             />
@@ -112,6 +109,7 @@ export const ProfileForm = () => {
               value={form.email}
               name="email"
               isIcon={true}
+              disabled={isUpdating}
               checkValid={(isValid) => {
                 setIsEmailValid(isValid);
               }}
@@ -124,6 +122,7 @@ export const ProfileForm = () => {
               name={"password"}
               extraClass="mb-2"
               icon="EditIcon"
+              disabled={isUpdating}
               checkValid={(isValid) => {
                 setIsPasswordValid(isValid);
               }}
@@ -147,7 +146,6 @@ export const ProfileForm = () => {
                   type="primary"
                   size="medium"
                   disabled={isUpdating}
-                  onClick={handleSave}
                 >
                   {isUpdating ? "Сохранение..." : "Сохранить"}
                 </Button>
