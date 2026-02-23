@@ -13,8 +13,14 @@
   align-items: center;
 }
 
+.name {
+  text-decoration: none;
+  color: white;
+}
+
 .price {
-  composes: pr-2 from global;
+  text-decoration: none;
+  color: white;
 }
 
 .counter {

@@ -31,3 +31,13 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.active_link {
+  composes: mt-6 text text_type_main-default from global;
+  text-decoration: none;
+  color: white;
+}
+.normal_link {
+  composes: pt-6 text text_type_main-default text_color_inactive from global;
+  text-decoration: none;
+}

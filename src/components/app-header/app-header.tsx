@@ -7,6 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { HeaderItem } from "./header-item";
 import styles from "./app-header.module.css";
+import { NavLink } from "react-router-dom";
 
 enum HeaderItemText {
   constructor = "Конструктор",
@@ -22,52 +23,75 @@ export const AppHeader = () => {
     <header className={styles.header}>
       <nav className={styles.menu}>
         <div className={styles.left_group}>
-          <HeaderItem
-            text={HeaderItemText.constructor}
-            isSelected={selectedHeaderItem === HeaderItemText.constructor}
-            onClick={() => setSelectedHeaderItem(HeaderItemText.constructor)}
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? styles.active_link : styles.normal_link
+            }
           >
-            <BurgerIcon
-              type={
-                selectedHeaderItem === HeaderItemText.constructor
-                  ? "primary"
-                  : "secondary"
-              }
-            />
-          </HeaderItem>
-          <HeaderItem
-            text={HeaderItemText.list}
-            isSelected={selectedHeaderItem === HeaderItemText.list}
-            onClick={() => setSelectedHeaderItem(HeaderItemText.list)}
-          >
-            <ListIcon
-              type={
-                selectedHeaderItem === HeaderItemText.list
-                  ? "primary"
-                  : "secondary"
-              }
-            />
-          </HeaderItem>
-        </div>
+            <HeaderItem
+              text={HeaderItemText.constructor}
+              isSelected={selectedHeaderItem === HeaderItemText.constructor}
+              onClick={() => setSelectedHeaderItem(HeaderItemText.constructor)}
+            >
+              <BurgerIcon
+                type={
+                  selectedHeaderItem === HeaderItemText.constructor
+                    ? "primary"
+                    : "secondary"
+                }
+              />
+            </HeaderItem>
+          </NavLink>
 
-        <div className={styles.logo}>
-          <Logo />
+          <NavLink
+            to="order-feed"
+            className={({ isActive }) =>
+              isActive ? styles.active_link : styles.normal_link
+            }
+          >
+            <HeaderItem
+              text={HeaderItemText.list}
+              isSelected={selectedHeaderItem === HeaderItemText.list}
+              onClick={() => setSelectedHeaderItem(HeaderItemText.list)}
+            >
+              <ListIcon
+                type={
+                  selectedHeaderItem === HeaderItemText.list
+                    ? "primary"
+                    : "secondary"
+                }
+              />
+            </HeaderItem>
+          </NavLink>
         </div>
+        <NavLink to="/">
+          <div className={styles.logo}>
+            <Logo />
+          </div>
+        </NavLink>
 
         <div className={styles.right_group}>
-          <HeaderItem
-            text={HeaderItemText.account}
-            isSelected={selectedHeaderItem === HeaderItemText.account}
-            onClick={() => setSelectedHeaderItem(HeaderItemText.account)}
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              isActive ? styles.active_link : styles.normal_link
+            }
           >
-            <ProfileIcon
-              type={
-                selectedHeaderItem === HeaderItemText.account
-                  ? "primary"
-                  : "secondary"
-              }
-            />
-          </HeaderItem>
+            <HeaderItem
+              text={HeaderItemText.account}
+              isSelected={selectedHeaderItem === HeaderItemText.account}
+              onClick={() => setSelectedHeaderItem(HeaderItemText.account)}
+            >
+              <ProfileIcon
+                type={
+                  selectedHeaderItem === HeaderItemText.account
+                    ? "primary"
+                    : "secondary"
+                }
+              />
+            </HeaderItem>
+          </NavLink>
         </div>
       </nav>
     </header>

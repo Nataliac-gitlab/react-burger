@@ -2,9 +2,8 @@ import React from "react";
 import { IngredientTypes, IngredientTitles } from "../../../common/types";
 import styles from "./ingredient-group.module.css";
 import { IngredientItem } from "../ingredient-item/ingredient-item";
-import { setCurrentIngredientId } from "../ingredient-details/services/slice";
 import { getIngredientIdsByType } from "../services/selectors";
-import { useAppDispatch, useAppSelector } from "../../../servives/hooks";
+import { useAppSelector } from "../../../servives/hooks";
 
 type IngredientsGroupProps = {
   type: IngredientTypes;
@@ -13,18 +12,13 @@ type IngredientsGroupProps = {
 export const IngredientsGroup = ({ type }: IngredientsGroupProps) => {
   const group = useAppSelector((state) => getIngredientIdsByType(state, type));
 
-  const dispatch = useAppDispatch();
-
-  const handleOnClick = (id: string) => {
-    dispatch(setCurrentIngredientId(id));
-  };
   return (
     <>
       <p className={styles.type}>{IngredientTitles[type]}</p>
       <ul className={styles.grid_list}>
         {group.map((id) => {
           return (
-            <li key={id} onClick={() => handleOnClick(id)}>
+            <li key={id} onClick={() => {}}>
               <IngredientItem id={id} />
             </li>
           );

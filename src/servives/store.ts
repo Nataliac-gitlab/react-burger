@@ -1,16 +1,18 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { reactBurgerApi } from "./api";
 import ingredientsReducer from "../components/burger-ingredients/services/slice";
 import constructorReducer from "../components/burger-constructor/services/slice";
-import ingredientDetailsReducer from "../components/burger-ingredients/ingredient-details/services/slice";
+import profileReducer from "../components/profile-components/services/slice";
+
+const rootReducer = combineReducers({
+  ingredientsConstructor: constructorReducer,
+  ingredients: ingredientsReducer,
+  profile: profileReducer,
+  [reactBurgerApi.reducerPath]: reactBurgerApi.reducer,
+});
 
 export const store = configureStore({
-  reducer: {
-    ingredientsConstructor: constructorReducer,
-    ingredients: ingredientsReducer,
-    ingredientDetails: ingredientDetailsReducer,
-    [reactBurgerApi.reducerPath]: reactBurgerApi.reducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(reactBurgerApi.middleware),
 });
