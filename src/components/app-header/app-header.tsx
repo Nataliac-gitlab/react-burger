@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC } from "react";
 import {
   BurgerIcon,
   ListIcon,
@@ -12,58 +12,49 @@ import { NavLink } from "react-router-dom";
 enum HeaderItemText {
   constructor = "Конструктор",
   list = "Лента заказов",
-  account = "Личный кабинет",
+  profile = "Личный кабинет",
 }
 
+type TIconProps = { type: "primary" | "secondary" };
+
 export const AppHeader = () => {
-  const [selectedHeaderItem, setSelectedHeaderItem] = useState<HeaderItemText>(
-    HeaderItemText.constructor,
+  const renderNavLink = ({
+    to,
+    title,
+    Icon,
+  }: {
+    to: string;
+    title: string;
+    Icon: FC<TIconProps>;
+  }) => (
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        isActive ? styles.active_link : styles.normal_link
+      }
+    >
+      {({ isActive }) => (
+        <HeaderItem text={title} isSelected={isActive}>
+          <Icon type={isActive ? "primary" : "secondary"} />
+        </HeaderItem>
+      )}
+    </NavLink>
   );
+
   return (
     <header className={styles.header}>
       <nav className={styles.menu}>
         <div className={styles.left_group}>
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive ? styles.active_link : styles.normal_link
-            }
-          >
-            <HeaderItem
-              text={HeaderItemText.constructor}
-              isSelected={selectedHeaderItem === HeaderItemText.constructor}
-              onClick={() => setSelectedHeaderItem(HeaderItemText.constructor)}
-            >
-              <BurgerIcon
-                type={
-                  selectedHeaderItem === HeaderItemText.constructor
-                    ? "primary"
-                    : "secondary"
-                }
-              />
-            </HeaderItem>
-          </NavLink>
-
-          <NavLink
-            to="order-feed"
-            className={({ isActive }) =>
-              isActive ? styles.active_link : styles.normal_link
-            }
-          >
-            <HeaderItem
-              text={HeaderItemText.list}
-              isSelected={selectedHeaderItem === HeaderItemText.list}
-              onClick={() => setSelectedHeaderItem(HeaderItemText.list)}
-            >
-              <ListIcon
-                type={
-                  selectedHeaderItem === HeaderItemText.list
-                    ? "primary"
-                    : "secondary"
-                }
-              />
-            </HeaderItem>
-          </NavLink>
+          {renderNavLink({
+            to: "/",
+            title: HeaderItemText.constructor,
+            Icon: BurgerIcon,
+          })}
+          {renderNavLink({
+            to: "order-feed",
+            title: HeaderItemText.list,
+            Icon: ListIcon,
+          })}
         </div>
         <NavLink to="/">
           <div className={styles.logo}>
@@ -72,26 +63,11 @@ export const AppHeader = () => {
         </NavLink>
 
         <div className={styles.right_group}>
-          <NavLink
-            to="/profile"
-            className={({ isActive }) =>
-              isActive ? styles.active_link : styles.normal_link
-            }
-          >
-            <HeaderItem
-              text={HeaderItemText.account}
-              isSelected={selectedHeaderItem === HeaderItemText.account}
-              onClick={() => setSelectedHeaderItem(HeaderItemText.account)}
-            >
-              <ProfileIcon
-                type={
-                  selectedHeaderItem === HeaderItemText.account
-                    ? "primary"
-                    : "secondary"
-                }
-              />
-            </HeaderItem>
-          </NavLink>
+          {renderNavLink({
+            to: "/profile",
+            title: HeaderItemText.profile,
+            Icon: ProfileIcon,
+          })}
         </div>
       </nav>
     </header>

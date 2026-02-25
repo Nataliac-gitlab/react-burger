@@ -1,19 +1,15 @@
-import { useAppSelector } from "../../servives/hooks";
-import { UserType } from "../../common/types";
-import { getUser } from "../profile-components/services/selectors";
 import { useLocation, Navigate } from "react-router-dom";
-import React, { ReactElement, JSX } from "react";
+import React, { ReactNode } from "react";
 
-type ProtectedRouteProps = {
-  children: ReactElement | ((user: UserType) => ReactElement);
+interface IProtectedRouteProps {
+  children: ReactNode;
   isPublic?: boolean;
-};
+}
 
 export const ProtectedRoute = ({
   children,
   isPublic = false,
-}: ProtectedRouteProps): JSX.Element | null => {
-  const user = useAppSelector(getUser);
+}: IProtectedRouteProps) => {
   const token = localStorage.getItem("accessToken");
   const location = useLocation();
   if (!isPublic && !token) {
@@ -25,9 +21,5 @@ export const ProtectedRoute = ({
     return <Navigate to={from} replace />;
   }
 
-  if (typeof children === "function") {
-    return children(user!);
-  }
-
-  return children;
+  return <>{children}</>;
 };

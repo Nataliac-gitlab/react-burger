@@ -11,11 +11,11 @@ import { useDrag } from "react-dnd";
 import { DraggedIngredientItem } from "./../../../common/types";
 import { NavLink, useLocation } from "react-router-dom";
 
-type IngredientItemProps = {
+interface IIngredientItemProps {
   id: string;
-};
+}
 
-export const IngredientItem = ({ id }: IngredientItemProps) => {
+export const IngredientItem = ({ id }: IIngredientItemProps) => {
   const count = useAppSelector((state) => getCountById(state, id));
   const ingredient = useAppSelector((state) =>
     getIngredientItemById(state, id),

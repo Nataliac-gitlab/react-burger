@@ -8,12 +8,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useRegisterMutation } from "../servives/api";
+import { RegisterPayload } from "../servives/types";
 
 export const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState<RegisterPayload>({
+    name: "",
+    email: "",
+    password: "",
+  });
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
 

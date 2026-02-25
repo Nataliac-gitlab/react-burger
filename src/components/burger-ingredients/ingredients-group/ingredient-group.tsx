@@ -5,11 +5,11 @@ import { IngredientItem } from "../ingredient-item/ingredient-item";
 import { getIngredientIdsByType } from "../services/selectors";
 import { useAppSelector } from "../../../servives/hooks";
 
-type IngredientsGroupProps = {
+interface IIngredientsGroupProps {
   type: IngredientTypes;
-};
+}
 
-export const IngredientsGroup = ({ type }: IngredientsGroupProps) => {
+export const IngredientsGroup = ({ type }: IIngredientsGroupProps) => {
   const group = useAppSelector((state) => getIngredientIdsByType(state, type));
 
   return (

@@ -32,7 +32,7 @@ import {
 } from "../components/profile-components/services/slice";
 import { setBurgerIngredients } from "../components/burger-ingredients/services/slice";
 
-interface ApiResponse {
+interface IApiResponse {
   data: IngredientItemType[];
 }
 
@@ -90,7 +90,7 @@ export const reactBurgerApi = createApi({
   endpoints: (builder) => ({
     getIngredientItems: builder.query<IngredientItemType[], void>({
       query: () => "ingredients",
-      transformResponse: (response: ApiResponse) => response.data,
+      transformResponse: (response: IApiResponse) => response.data,
 
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
@@ -141,9 +141,11 @@ export const reactBurgerApi = createApi({
       async onQueryStarted(credentials, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          localStorage.setItem("accessToken", data.accessToken);
-          localStorage.setItem("refreshToken", data.refreshToken);
-          dispatch(setUser({ ...data.user, password: credentials.password }));
+          if (data?.accessToken && data?.refreshToken && data.user) {
+            localStorage.setItem("accessToken", data.accessToken);
+            localStorage.setItem("refreshToken", data.refreshToken);
+            dispatch(setUser({ ...data.user, password: credentials.password }));
+          }
         } catch (err) {
           console.error(`Ошибка регистрации пользователя: ${err}`);
         }
@@ -159,9 +161,11 @@ export const reactBurgerApi = createApi({
       async onQueryStarted(credentials, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          localStorage.setItem("accessToken", data.accessToken);
-          localStorage.setItem("refreshToken", data.refreshToken);
-          dispatch(setUser({ ...data.user, password: credentials.password }));
+          if (data?.accessToken && data?.refreshToken && data.user) {
+            localStorage.setItem("accessToken", data.accessToken);
+            localStorage.setItem("refreshToken", data.refreshToken);
+            dispatch(setUser({ ...data.user, password: credentials.password }));
+          }
         } catch (err) {
           console.error(`Ошибка логина: ${err}`);
         }
@@ -209,10 +213,12 @@ export const reactBurgerApi = createApi({
       }),
       async onQueryStarted(credentials, { dispatch, queryFulfilled }) {
         try {
-          const response = await queryFulfilled;
-          dispatch(setUser(response.data.user));
+          const { data } = await queryFulfilled;
+          if (data?.user) {
+            dispatch(setUser({ ...data.user, password: credentials.password }));
+          }
         } catch (err) {
-          console.error(`Ошибка выхода: ${err}`);
+          console.error(`Ошибка изменения данных: ${err}`);
         }
       },
     }),

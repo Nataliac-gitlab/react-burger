@@ -7,12 +7,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLoginMutation } from "../servives/api";
+import { LoginPayload } from "../servives/types";
 
 export const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState<LoginPayload>({ email: "", password: "" });
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
 
