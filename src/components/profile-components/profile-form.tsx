@@ -11,12 +11,13 @@ import { useGetUserQuery, useUpdateUserMutation } from "../../servives/api";
 import { setUser } from "./services/slice";
 import { useAppDispatch, useAppSelector } from "../../servives/hooks";
 import { getUser } from "./services/selectors";
+import { UpdateUserPayload } from "../../servives/types";
 
 export const ProfileForm = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(getUser);
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<UpdateUserPayload>({
     name: "",
     email: "",
     password: "",
@@ -35,8 +36,7 @@ export const ProfileForm = () => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleCancel = (e: any) => {
-    e.preventDefault();
+  const handleCancel = () => {
     setForm({
       name: user?.name || "",
       email: user?.email || "",

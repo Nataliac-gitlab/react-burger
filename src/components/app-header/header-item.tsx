@@ -1,14 +1,14 @@
 import styles from "./header-item.module.css";
 import React, { ReactNode } from "react";
 
-type HeaderItemProps = {
+interface IHeaderItemProps {
   children: ReactNode;
   text: string;
   isSelected: boolean;
-  onClick: () => void;
-};
+  onClick?: () => void;
+}
 
-export const HeaderItem = (props: HeaderItemProps) => {
+export const HeaderItem = (props: IHeaderItemProps) => {
   const { children, text, isSelected, onClick } = props;
   return (
     <div className={styles.header_item} onClick={onClick}>

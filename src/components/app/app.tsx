@@ -29,7 +29,7 @@ const App = () => {
             path="profile"
             element={
               <ProtectedRoute>
-                {(user) => <Profile /*user={user}*/ />}
+                <Profile />
               </ProtectedRoute>
             }
           >

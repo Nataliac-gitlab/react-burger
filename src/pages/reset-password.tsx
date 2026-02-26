@@ -7,10 +7,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { useResetPasswordMutation } from "../servives/api";
+import { ResetPasswordPayload } from "../servives/types";
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ code: "", password: "" });
+  const [form, setForm] = useState<ResetPasswordPayload>({
+    token: "",
+    password: "",
+  });
   const [isPasswordValid, setIsPasswordValid] = useState(true);
 
   const location = useLocation();
@@ -19,7 +23,7 @@ export const ResetPassword = () => {
   const [resetPasswordPost, { isLoading, isError }] =
     useResetPasswordMutation();
   const isFormValid =
-    form.password && form.code && !isLoading && isPasswordValid;
+    form.password && form.token && !isLoading && isPasswordValid;
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -33,7 +37,7 @@ export const ResetPassword = () => {
     try {
       const response = await resetPasswordPost({
         password: form.password,
-        token: form.code,
+        token: form.token,
       }).unwrap();
       if (
         response.success &&
@@ -70,7 +74,7 @@ export const ResetPassword = () => {
           type={"text"}
           placeholder={"Введите код из письма"}
           onChange={onChange}
-          value={form.code}
+          value={form.token}
           name={"code"}
           error={false}
           errorText={"Ошибка"}

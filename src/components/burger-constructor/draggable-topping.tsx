@@ -9,12 +9,12 @@ import { useAppDispatch, useAppSelector } from "../../servives/hooks";
 import { getIngredientItemById } from "../burger-ingredients/services/selectors";
 import { removeToppingByIndex, moveTopping } from "./services/slice";
 
-type DraggableToppingProps = {
+interface IDraggableToppingProps {
   id: string;
   index: number;
-};
+}
 
-export const DraggableTopping = ({ id, index }: DraggableToppingProps) => {
+export const DraggableTopping = ({ id, index }: IDraggableToppingProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const topping = useAppSelector((state) => getIngredientItemById(state, id));
   const dispatch = useAppDispatch();
