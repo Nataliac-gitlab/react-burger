@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./ingredient-details.module.css";
 
 import { useParams } from "react-router-dom";
-import { useGetIngredientItemsQuery } from "../../../servives/api";
+import { useGetIngredientItemsQuery } from "../../../services/api";
 
 export const IngredientDetails = () => {
   const { id } = useParams();
@@ -13,12 +13,12 @@ export const IngredientDetails = () => {
   if (isLoading) return <div>Загрузка...</div>;
   if (isError) return <div>Ошибка</div>;
   if (!details) return <div>Ингредиент не найден</div>;
-  const { image, name, calories, proteins, fat, carbohydrates } = details;
+  const { image_large, name, calories, proteins, fat, carbohydrates } = details;
 
   return (
     <div className={styles.container}>
       <div className={styles.title}>Детали ингредиента</div>
-      <img className={styles.image} src={image} alt={name}></img>
+      <img src={image_large} alt={name}></img>
       <h2 className={styles.name}>{name}</h2>
       <div className={styles.values}>
         <div className={styles.nutrient}>

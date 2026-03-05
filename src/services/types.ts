@@ -1,3 +1,5 @@
+import { type TOrder } from "../common/types";
+
 type TResponse = {
   success: boolean;
   message: string;
@@ -81,4 +83,11 @@ export type UpdateUserPayload = {
   email: string;
   password: string;
   name: string;
+};
+
+export type FeedResponse = {
+  success: boolean;
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
 };

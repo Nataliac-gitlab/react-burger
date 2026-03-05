@@ -7,11 +7,11 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile-form.module.css";
-import { useGetUserQuery, useUpdateUserMutation } from "../../servives/api";
+import { useGetUserQuery, useUpdateUserMutation } from "../../services/api";
 import { setUser } from "./services/slice";
-import { useAppDispatch, useAppSelector } from "../../servives/hooks";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getUser } from "./services/selectors";
-import { UpdateUserPayload } from "../../servives/types";
+import { UpdateUserPayload } from "../../services/types";
 
 export const ProfileForm = () => {
   const dispatch = useAppDispatch();

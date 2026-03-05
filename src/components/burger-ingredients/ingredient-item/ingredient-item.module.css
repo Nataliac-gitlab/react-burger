@@ -6,19 +6,7 @@
   composes: pb-5 text text_type_main-default from global;
 }
 
-.price_row {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
 .name {
-  text-decoration: none;
-  color: white;
-}
-
-.price {
   text-decoration: none;
   color: white;
 }

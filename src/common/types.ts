@@ -37,3 +37,15 @@ export type UserType = {
   password?: string;
   name: string;
 };
+
+export type TOrder = {
+  ingredients: string[];
+  _id: string;
+  status: string;
+  name: string;
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TStatus = "done" | "inProgress" | "cancelled";

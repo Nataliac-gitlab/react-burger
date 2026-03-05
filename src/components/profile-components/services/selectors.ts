@@ -1,4 +1,4 @@
-import { RootState } from "../../../servives/store";
+import { RootState } from "../../../services/store";
 
 export const getEmail = (state: RootState) => state.profile.user?.email;
 

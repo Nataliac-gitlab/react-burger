@@ -9,12 +9,6 @@ import { HeaderItem } from "./header-item";
 import styles from "./app-header.module.css";
 import { NavLink } from "react-router-dom";
 
-enum HeaderItemText {
-  constructor = "Конструктор",
-  list = "Лента заказов",
-  profile = "Личный кабинет",
-}
-
 type TIconProps = { type: "primary" | "secondary" };
 
 export const AppHeader = () => {
@@ -47,12 +41,12 @@ export const AppHeader = () => {
         <div className={styles.left_group}>
           {renderNavLink({
             to: "/",
-            title: HeaderItemText.constructor,
+            title: "Конструктор",
             Icon: BurgerIcon,
           })}
           {renderNavLink({
-            to: "order-feed",
-            title: HeaderItemText.list,
+            to: "feed",
+            title: "Лента заказов",
             Icon: ListIcon,
           })}
         </div>
@@ -65,7 +59,7 @@ export const AppHeader = () => {
         <div className={styles.right_group}>
           {renderNavLink({
             to: "/profile",
-            title: HeaderItemText.profile,
+            title: "Личный кабинет",
             Icon: ProfileIcon,
           })}
         </div>

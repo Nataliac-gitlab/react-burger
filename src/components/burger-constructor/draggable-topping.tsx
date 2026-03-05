@@ -5,7 +5,7 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
-import { useAppDispatch, useAppSelector } from "../../servives/hooks";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getIngredientItemById } from "../burger-ingredients/services/selectors";
 import { removeToppingByIndex, moveTopping } from "./services/slice";
 

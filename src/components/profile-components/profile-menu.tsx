@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./profile-menu.module.css";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useLogoutMutation } from "../../servives/api";
+import { useLogoutMutation } from "../../services/api";
 
 export const ProfileMenu = () => {
   const navigate = useNavigate();

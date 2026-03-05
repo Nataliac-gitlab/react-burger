@@ -31,7 +31,7 @@ import {
   clearUser,
 } from "../components/profile-components/services/slice";
 import { setBurgerIngredients } from "../components/burger-ingredients/services/slice";
-
+//to do move to types
 interface IApiResponse {
   data: IngredientItemType[];
 }

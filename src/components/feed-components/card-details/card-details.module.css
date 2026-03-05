@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  composes: mt-10 from global;
+}
+
+.number {
+  text-align: center;
+  composes: mb-5 text text_type_main-medium text_type_digits-default from global;
+}
+
+.name {
+  text-align: start;
+  composes: mb-3 text text_type_main-default from global;
+}
+
+.content {
+  composes: mb-5 text text_type_main-medium from global;
+}
+
+.status {
+  composes: pt-2 mb-5 text text_type_main-default from global;
+}
+
+.list_container {
+  composes: custom-scroll from global;
+  list-style: none;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.date {
+  composes: text text_type_main-small text_color_inactive from global;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  composes: mt-10 from global;
+}

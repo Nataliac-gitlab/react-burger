@@ -1,15 +1,13 @@
 import React from "react";
 import styles from "./ingredient-item.module.css";
-import { useAppSelector } from "../../../servives/hooks";
-import {
-  Counter,
-  CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useAppSelector } from "../../../services/hooks";
+import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getCountById } from "../../burger-constructor/services/selectors";
 import { getIngredientItemById } from "../services/selectors";
 import { useDrag } from "react-dnd";
 import { DraggedIngredientItem } from "./../../../common/types";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
+import { Price } from "../../feed-components/feed-common/price";
 
 interface IIngredientItemProps {
   id: string;
@@ -51,15 +49,11 @@ export const IngredientItem = ({ id }: IIngredientItemProps) => {
           dragRef(node);
         }}
       >
-        <NavLink to={`/ingredients/${id}`} state={{ background: location }}>
+        <Link to={`/ingredients/${id}`} state={{ background: location }}>
           <img src={image} alt={name}></img>
-        </NavLink>
-        <span className={styles.name}>{name}</span>
-
-        <div className={styles.price_row}>
-          <div className={styles.price}>{price}</div>
-          <CurrencyIcon type="primary" />
-        </div>
+        </Link>
+        <div className={styles.name}>{name}</div>
+        <Price price={price} />
       </div>
     </div>
   );

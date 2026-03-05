@@ -1,5 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
-import { RootState } from "../../../servives/store";
+import { RootState } from "../../../services/store";
 import { getBurgerIngredientsByIds } from "../../burger-ingredients/services/selectors";
 
 export const getBunId = (state: RootState) => state.ingredientsConstructor.bun;

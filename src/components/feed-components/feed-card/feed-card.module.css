@@ -1,0 +1,44 @@
+.container {
+  composes: mb-4 mr-4 from global;
+}
+
+.element {
+  composes: constructor-element from global;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.name {
+  composes: pb-2 text text_type_main-default from global;
+}
+
+.status {
+  composes: pb-4 text text_type_main-small text_color_inactive from global;
+}
+.number {
+  composes: pb-4 text_type_digits-default from global;
+}
+
+.date {
+  composes: pb-4 text text_type_main-small text_color_inactive from global;
+}
+
+.stack {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+}
+
+.other {
+  composes: pb-4 text_type_digits-default from global;
+  position: relative;
+  right: 97px;
+  top: 3px;
+  z-index: 100;
+}
