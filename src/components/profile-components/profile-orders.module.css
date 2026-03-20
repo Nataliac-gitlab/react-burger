@@ -1,0 +1,6 @@
+.list_container {
+  composes: mt-10 custom-scroll from global;
+  height: calc(100vh - 200px);
+  width: 540px;
+  overflow-y: auto;
+}

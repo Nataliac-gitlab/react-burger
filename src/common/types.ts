@@ -48,4 +48,6 @@ export type TOrder = {
   updatedAt: string;
 };
 
-export type TStatus = "done" | "inProgress" | "cancelled";
+export type TStatus = "done" | "pending" | "cancelled";
+
+export type TFeed = "all" | "user";

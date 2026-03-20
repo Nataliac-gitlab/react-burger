@@ -17,19 +17,19 @@ import { ProfileForm } from "../profile-components/profile-form";
 import { ProtectedRoute } from "../protected-route/protected-route";
 import { CardDetails } from "../feed-components/card-details/card-details";
 import { FeedModal } from "../feed-components/feed-modal";
+import { ProfileOrders } from "../profile-components/profile-orders";
 
 const App = () => {
   const location = useLocation();
   const background = location.state?.background;
   const feedBackground = location.state?.feedBackground;
+  const profileBackground = location.state?.profileBackground;
+  const displayLocation =
+    background || feedBackground || profileBackground || location;
 
   return (
     <>
-      <Routes
-        location={
-          background ? background : feedBackground ? feedBackground : location
-        }
-      >
+      <Routes location={displayLocation}>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="feed" element={<Feed />} />
@@ -42,8 +42,7 @@ const App = () => {
             }
           >
             <Route index element={<ProfileForm />} />
-            <Route path="orders" element={<Page404 />} />
-            <Route path="orders/:id" element={<Page404 />} />
+            <Route path="orders" element={<ProfileOrders />} />
           </Route>
           <Route
             path="login"
@@ -79,6 +78,14 @@ const App = () => {
           />
           <Route path="ingredients/:id" element={<IngredientDetails />} />
           <Route path="feed/:number" element={<CardDetails />} />
+          <Route
+            path="profile/orders/:number"
+            element={
+              <ProtectedRoute>
+                <CardDetails />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<Page404 />} />
         </Route>
       </Routes>
@@ -90,6 +97,12 @@ const App = () => {
       {feedBackground && (
         <Routes>
           <Route path="/feed/:number" element={<FeedModal />} />
+        </Routes>
+      )}
+
+      {profileBackground && (
+        <Routes>
+          <Route path="/profile/orders/:number" element={<FeedModal />} />
         </Routes>
       )}
     </>

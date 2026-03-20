@@ -16,7 +16,7 @@ interface IDraggableToppingProps {
 
 export const DraggableTopping = ({ id, index }: IDraggableToppingProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const topping = useAppSelector((state) => getIngredientItemById(state, id));
+  const topping = useAppSelector(getIngredientItemById(id));
   const dispatch = useAppDispatch();
 
   const handleOnDelete = (index: number) => {

@@ -14,10 +14,8 @@ interface IIngredientItemProps {
 }
 
 export const IngredientItem = ({ id }: IIngredientItemProps) => {
-  const count = useAppSelector((state) => getCountById(state, id));
-  const ingredient = useAppSelector((state) =>
-    getIngredientItemById(state, id),
-  );
+  const count = useAppSelector(getCountById(id));
+  const ingredient = useAppSelector(getIngredientItemById(id));
   const location = useLocation();
 
   const [{ isDrag }, dragRef] = useDrag<

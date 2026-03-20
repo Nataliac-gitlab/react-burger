@@ -91,3 +91,16 @@ export type FeedResponse = {
   total: number;
   totalToday: number;
 };
+
+export type WSResponse = {
+  success: boolean;
+  orders: TOrder[];
+  total: string;
+  totalToday: string;
+  message?: string;
+};
+export type GetOrderByNumberResponse = {
+  success: boolean;
+  orders: TOrder[];
+};
+export type GetOrderByNumberPayload = {};

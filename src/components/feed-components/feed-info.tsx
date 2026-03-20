@@ -5,15 +5,15 @@ import {
   getInProgress,
   getTotal,
   getTotalToday,
-} from "./services/selectors";
+} from "./services/cash-selectors";
 import styles from "./feed-info.module.css";
 
 export const FeedInfo = () => {
-  const total = useAppSelector(getTotal);
-  const totalToday = useAppSelector(getTotalToday);
-  const done = useAppSelector(getDone);
-  const inProgress = useAppSelector(getInProgress);
-  //[    123456, 123456, 123456, 123456, 123456, 123456, 123456, 123456, 123456,    123456, 123456,  ];
+  const total = useAppSelector(getTotal("all"));
+  const totalToday = useAppSelector(getTotalToday("all"));
+  const done = useAppSelector(getDone("all"));
+  const inProgress = useAppSelector(getInProgress("all"));
+  //[ 123456, 123456, 123456, 123456, 123456, 123456, 123456, 123456, 123456,    123456, 123456,  ];
 
   return (
     <div className={styles.container}>

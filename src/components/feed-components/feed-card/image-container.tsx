@@ -9,9 +9,7 @@ type ImageContainerProps = {
   pos?: number;
 };
 export const ImageContainer = ({ id, pos = 0 }: ImageContainerProps) => {
-  const ingredient = useAppSelector((state) =>
-    getIngredientItemById(state, id),
-  );
+  const ingredient = useAppSelector(getIngredientItemById(id));
 
   const dynamicStyles = useMemo(
     () =>

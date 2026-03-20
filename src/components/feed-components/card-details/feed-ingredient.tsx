@@ -11,9 +11,7 @@ type FeedIngredientProps = {
   count: number;
 };
 export const FeedIngredient = ({ id, count }: FeedIngredientProps) => {
-  const ingredient = useAppSelector((state) =>
-    getIngredientItemById(state, id),
-  );
+  const ingredient = useAppSelector(getIngredientItemById(id));
   if (!ingredient) {
     return null;
   }

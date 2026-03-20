@@ -10,7 +10,7 @@ interface IIngredientsGroupProps {
 }
 
 export const IngredientsGroup = ({ type }: IIngredientsGroupProps) => {
-  const group = useAppSelector((state) => getIngredientIdsByType(state, type));
+  const group = useAppSelector(getIngredientIdsByType(type));
 
   return (
     <>

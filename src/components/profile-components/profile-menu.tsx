@@ -1,11 +1,22 @@
 import React from "react";
 import styles from "./profile-menu.module.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useLogoutMutation } from "../../services/api";
 
 export const ProfileMenu = () => {
   const navigate = useNavigate();
   const [logoutPost] = useLogoutMutation();
+  const location = useLocation();
+  const profileText =
+    "В этом разделе вы можете изменить свои персональные данные";
+  const ordersText =
+    "В этом разделе вы можете просмотреть историю своих заказов";
+  const text =
+    location.pathname === "/profile"
+      ? profileText
+      : location.pathname === "/profile/orders"
+        ? ordersText
+        : "";
 
   const handleLogout = async () => {
     const refreshToken = localStorage.getItem("refreshToken");
@@ -43,9 +54,7 @@ export const ProfileMenu = () => {
       <div className={styles.normal_link} onClick={handleLogout}>
         Выход
       </div>
-      <div className={styles.text}>
-        В этом разделе вы можете изменить свои персональные данные
-      </div>
+      <div className={styles.text}>{text}</div>
     </div>
   );
 };

@@ -12,3 +12,15 @@ export const getStatusDetailes = (
       return null;
   }
 };
+
+export const getUniqueIngredientsWithCount = (
+  ingredients: string[],
+): Record<string, number> => {
+  return ingredients.reduce(
+    (acc: Record<string, number>, current) => {
+      acc[current] = acc[current] ? acc[current] + 1 : 1;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+};

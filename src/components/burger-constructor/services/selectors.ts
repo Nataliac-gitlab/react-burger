@@ -1,6 +1,6 @@
-import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "../../../services/store";
 import { getBurgerIngredientsByIds } from "../../burger-ingredients/services/selectors";
+import { createAppSelector } from "../../../services/hooks";
 
 export const getBunId = (state: RootState) => state.ingredientsConstructor.bun;
 export const getToppingIdsAndUuids = (state: RootState) =>
@@ -12,14 +12,14 @@ export const getToppingIds = (state: RootState) => {
   });
 };
 
-export const getBun = createSelector(
+export const getBun = createAppSelector(
   [getBurgerIngredientsByIds, getBunId],
   (ingredients, bunId) => {
     return bunId ? ingredients[bunId] : null;
   },
 );
 
-export const getToppings = createSelector(
+export const getToppings = createAppSelector(
   [getBurgerIngredientsByIds, getToppingIds],
   (ingredients, toppingIds) => {
     return toppingIds
@@ -28,7 +28,7 @@ export const getToppings = createSelector(
   },
 );
 
-export const getTotalPrice = createSelector(
+export const getTotalPrice = createAppSelector(
   [getBun, getToppings],
   (bun, toppings) => {
     const toppingsPrice = toppings.reduce((acc, item) => acc + item.price, 0);
@@ -37,7 +37,7 @@ export const getTotalPrice = createSelector(
   },
 );
 
-export const getOrderRequest = createSelector(
+export const getOrderRequest = createAppSelector(
   [getBunId, getToppingIds],
   (bunId, toppingIds) => {
     return {
@@ -52,12 +52,10 @@ export const getOrder = (state: RootState) =>
 export const getScrollMaxHeight = (state: RootState): number =>
   state.ingredientsConstructor.toppings.length * 90;
 
-export const getCountById = createSelector(
-  [getBunId, getToppingIds, (state, id) => id],
-  (bunId, toppingIds, id) => {
+export const getCountById = (id: string) =>
+  createAppSelector([getBunId, getToppingIds], (bunId, toppingIds) => {
     if (id === bunId) {
       return 2;
     }
     return toppingIds.filter((toppingId) => toppingId === id).length;
-  },
-);
+  });

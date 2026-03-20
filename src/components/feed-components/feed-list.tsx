@@ -2,11 +2,11 @@ import React from "react";
 import styles from "./feed-list.module.css";
 import { FeedCard } from "./feed-card/feed-card";
 import { useAppSelector } from "../../services/hooks";
-import { getOrders, getPrices } from "./services/selectors";
+import { getOrders, getPrices } from "./services/cash-selectors";
 
 export const FeedList = () => {
-  const orders = useAppSelector(getOrders);
-  const prices = useAppSelector(getPrices);
+  const orders = useAppSelector(getOrders("all"));
+  const prices = useAppSelector(getPrices("all"));
 
   return (
     <div>

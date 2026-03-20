@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { TOrder } from "../../../common/types";
+import { WSResponse } from "../../../services/types";
 
 export type FeedState = {
   orders: TOrder[];
@@ -9,7 +10,8 @@ export type FeedState = {
 };
 
 const initialState: FeedState = {
-  orders: [
+  orders: [],
+  /*
     {
       ingredients: [
         "643d69a5c3f7b9001cfa093d",
@@ -66,16 +68,19 @@ const initialState: FeedState = {
       updatedAt: "2021-06-23T14:43:22.603Z",
     },
   ],
-  total: 2,
-  totalToday: 2,
+  */
+  total: 0,
+  totalToday: 0,
 };
 
 const FeedSlice = createSlice({
   name: "feed",
   initialState,
   reducers: {
-    setFeed: (state, { payload }: PayloadAction<FeedState>) => {
-      state = { ...payload };
+    setFeed: (state, { payload }: PayloadAction<WSResponse>) => {
+      state.orders = [...payload.orders];
+      state.total = Number(payload.total) || 0;
+      state.totalToday = Number(payload.totalToday || 0);
     },
   },
 });
