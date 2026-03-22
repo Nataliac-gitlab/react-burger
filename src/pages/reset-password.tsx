@@ -75,7 +75,7 @@ export const ResetPassword = () => {
           placeholder={"Введите код из письма"}
           onChange={onChange}
           value={form.token}
-          name={"code"}
+          name={"token"}
           error={false}
           errorText={"Ошибка"}
           size={"default"}

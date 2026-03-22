@@ -156,6 +156,7 @@ export const BurgerConstructor = () => {
             setIsOpen(false);
             dispatch(clearBurgerConstructor());
           }}
+          size={"small"}
         >
           <OrderDetails />
         </Modal>
