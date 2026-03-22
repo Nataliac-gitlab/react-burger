@@ -9,7 +9,7 @@ import { getOrderPriceByIngredients } from "../../burger-ingredients/services/se
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../../services/hooks";
 import { useGetIsUserFeed } from "../services/hooks";
-import { useGetOrderByNumberQuery } from "../../../services/api";
+import { useGetOrderByNumberQuery } from "../services/feed-api";
 import { getUniqueIngredientsWithCount } from "../utils/utils";
 
 export const CardDetails = () => {
@@ -19,17 +19,11 @@ export const CardDetails = () => {
   const order = useAppSelector(
     getOrderByNumber(isUser ? "user" : "all", number || ""),
   );
-  //add selector from cash
-  const { data, /*isSuccess, */ isLoading, isError } = useGetOrderByNumberQuery(
-    number || "",
-    {
-      skip: !!order,
-    },
-  );
-  //todo remove to api
-  // const { isLoading, isError } = useGetIngredientItemsQuery(
-  //   void { skip: !!order },
-  // );
+
+  const { data, isLoading, isError } = useGetOrderByNumberQuery(number || "", {
+    skip: !!order,
+  });
+
   const displayOrder = order || data?.orders[0];
   const ingredientCounts = getUniqueIngredientsWithCount(
     displayOrder?.ingredients || [],

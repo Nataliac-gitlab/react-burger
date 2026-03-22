@@ -1,4 +1,8 @@
-import { type TOrder } from "../common/types";
+import { type TOrder, type IngredientItemType } from "../common/types";
+
+export type GetIngredientItemsResponse = {
+  data: IngredientItemType[];
+};
 
 type TResponse = {
   success: boolean;

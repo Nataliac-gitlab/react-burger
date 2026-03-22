@@ -7,7 +7,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile-form.module.css";
-import { useGetUserQuery, useUpdateUserMutation } from "../../services/api";
+import { useGetUserQuery, useUpdateUserMutation } from "./services/profile-api";
 import { setUser } from "./services/slice";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getUser } from "./services/selectors";

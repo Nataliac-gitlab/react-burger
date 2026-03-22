@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./order-details.module.css";
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useGetOrderQuery } from "../../services/api";
+import { useGetOrderQuery } from "./services/constructor-api";
 import { getOrderRequest, getOrder } from "./services/selectors";
 import { setOrder } from "./services/slice";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";

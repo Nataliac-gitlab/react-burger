@@ -6,7 +6,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useLoginMutation } from "../services/api";
+import { useLoginMutation } from "../components/profile-components/services/profile-api";
 import { LoginPayload } from "../services/types";
 
 export const Login = () => {

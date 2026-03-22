@@ -5,7 +5,7 @@ import {
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useForgotPasswordMutation } from "../services/api";
+import { useForgotPasswordMutation } from "../components/profile-components/services/profile-api";
 
 export const ForgotPassword = () => {
   const navigate = useNavigate();

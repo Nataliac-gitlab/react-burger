@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./ingredient-details.module.css";
 
 import { useParams } from "react-router-dom";
-import { useGetIngredientItemsQuery } from "../../../services/api";
+import { useGetIngredientItemsQuery } from "../services/ingredients-api";
 
 export const IngredientDetails = () => {
   const { id } = useParams();

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./feed.module.css";
 import { FeedList } from "../components/feed-components/feed-list";
 import { FeedInfo } from "../components/feed-components/feed-info";
-import { useGetOrdersFeedQuery } from "../services/api";
+import { useGetOrdersFeedQuery } from "../components/feed-components/services/feed-api";
 
 export const Feed = () => {
   const { isError, isLoading } = useGetOrdersFeedQuery("all");

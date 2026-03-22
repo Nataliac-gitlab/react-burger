@@ -1,10 +1,10 @@
-import { reactBurgerApi } from "../../../services/api";
 import { getBurgerIngredientsByIds } from "../../burger-ingredients/services/selectors";
 import { TFeed } from "../../../common/types";
 import { createAppSelector } from "../../../services/hooks";
+import { feedApi } from "./feed-api";
 
 const selectFeedResult = (type: TFeed) =>
-  reactBurgerApi.endpoints.getOrdersFeed.select(type);
+  feedApi.endpoints.getOrdersFeed.select(type);
 
 export const selectFeedData = (type: TFeed) =>
   createAppSelector(selectFeedResult(type), (result) => result.data);

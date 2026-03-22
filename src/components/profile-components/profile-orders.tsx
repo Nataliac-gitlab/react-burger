@@ -4,7 +4,7 @@ import { FeedCard } from "../feed-components/feed-card/feed-card";
 import { useAppSelector } from "../../services/hooks";
 import { getPrices } from "../feed-components/services/cash-selectors";
 import { getOrders } from "../feed-components/services/cash-selectors";
-import { useGetOrdersFeedQuery } from "../../services/api";
+import { useGetOrdersFeedQuery } from "../feed-components/services/feed-api";
 
 export const ProfileOrders = () => {
   const orders = useAppSelector(getOrders("user"));

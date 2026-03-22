@@ -6,7 +6,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useLocation, useNavigate, Navigate } from "react-router-dom";
-import { useResetPasswordMutation } from "../services/api";
+import { useResetPasswordMutation } from "../components/profile-components/services/profile-api";
 import { ResetPasswordPayload } from "../services/types";
 
 export const ResetPassword = () => {
