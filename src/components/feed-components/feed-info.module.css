@@ -1,0 +1,45 @@
+.container {
+  composes: ml-10 from global;  
+}
+
+.status_section {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  composes: pb-8 from global;
+}
+.status_text,
+.text {
+  composes: text text_type_main-medium from global;
+}
+
+.status_text {
+  composes: mb-4 from global;
+}
+
+.numbers {
+  composes: mb-4 text_type_digits-large from global;
+}
+
+.status_numbers {
+  composes: text_type_digits-default from global;
+  
+}
+.done {
+color: cyan;
+}
+
+.column {
+  min-width: 264px;
+}
+
+.grid {
+  display: grid;
+  grid-template-rows: repeat(10, auto);
+  grid-auto-flow: column;
+  gap: 8px 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}

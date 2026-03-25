@@ -6,8 +6,8 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useLocation, useNavigate, Navigate } from "react-router-dom";
-import { useResetPasswordMutation } from "../servives/api";
-import { ResetPasswordPayload } from "../servives/types";
+import { useResetPasswordMutation } from "../components/profile-components/services/profile-api";
+import { ResetPasswordPayload } from "../services/types";
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
@@ -75,7 +75,7 @@ export const ResetPassword = () => {
           placeholder={"Введите код из письма"}
           onChange={onChange}
           value={form.token}
-          name={"code"}
+          name={"token"}
           error={false}
           errorText={"Ошибка"}
           size={"default"}

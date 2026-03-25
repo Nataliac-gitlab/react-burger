@@ -5,6 +5,7 @@ import { reactBurgerApi } from "./api";
 import ingredientsReducer from "../components/burger-ingredients/services/slice";
 import constructorReducer from "../components/burger-constructor/services/slice";
 import profileReducer from "../components/profile-components/services/slice";
+import feedReducer from "../components/feed-components/services/slice";
 
 const profilePersistConfig = {
   key: "profile",
@@ -21,6 +22,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   ingredientsConstructor: constructorReducer,
   ingredients: ingredientsReducer,
+  feed: feedReducer,
   profile: persistReducer(profilePersistConfig, profileReducer),
   [reactBurgerApi.reducerPath]: reactBurgerApi.reducer,
 });

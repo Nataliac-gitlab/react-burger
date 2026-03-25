@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 600px;
+  composes: mr-4 mb-4 from global;
+}
+
+.left {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+
+.right {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+}
+
+.name {
+  composes: ml-2 text text_type_main-default from global;
+}
+
+.count {
+  composes: mr-2 text text_type_main-medium text_type_digits-default from global;
+}

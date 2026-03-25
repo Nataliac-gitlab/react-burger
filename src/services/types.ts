@@ -1,3 +1,9 @@
+import { type TOrder, type IngredientItemType } from "../common/types";
+
+export type GetIngredientItemsResponse = {
+  data: IngredientItemType[];
+};
+
 type TResponse = {
   success: boolean;
   message: string;
@@ -82,3 +88,23 @@ export type UpdateUserPayload = {
   password: string;
   name: string;
 };
+
+export type FeedResponse = {
+  success: boolean;
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
+};
+
+export type WSResponse = {
+  success: boolean;
+  orders: TOrder[];
+  total: string;
+  totalToday: string;
+  message?: string;
+};
+export type GetOrderByNumberResponse = {
+  success: boolean;
+  orders: TOrder[];
+};
+export type GetOrderByNumberPayload = {};

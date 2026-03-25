@@ -1,0 +1,9 @@
+.price_row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.price {
+  composes: pr-1 text_type_digits-default from global;
+}

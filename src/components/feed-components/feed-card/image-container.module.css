@@ -1,0 +1,5 @@
+.circle {
+  position: relative;
+  right: calc(var(--offset, 0) * 10px);
+  z-index: var(--z-index, 1);
+}

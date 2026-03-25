@@ -1,7 +1,13 @@
+.modal_big {
+  width: 650px;
+  height: 650px;
+}
+.modal_small {
+  width: 420px;
+  height: 420px;
+}
 .modal_content {
   position: fixed;
-  width: 420px;
-  height: 390px;
   background-color: #1d1c21;
   transform: translate(-50%, -50%);
   top: 50%;

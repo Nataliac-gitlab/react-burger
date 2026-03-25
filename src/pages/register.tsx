@@ -7,8 +7,8 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useRegisterMutation } from "../servives/api";
-import { RegisterPayload } from "../servives/types";
+import { useRegisterMutation } from "../components/profile-components/services/profile-api";
+import { RegisterPayload } from "../services/types";
 
 export const Register = () => {
   const navigate = useNavigate();

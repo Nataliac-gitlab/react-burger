@@ -5,7 +5,7 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
-import { useAppDispatch, useAppSelector } from "../../servives/hooks";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { getIngredientItemById } from "../burger-ingredients/services/selectors";
 import { removeToppingByIndex, moveTopping } from "./services/slice";
 
@@ -16,7 +16,7 @@ interface IDraggableToppingProps {
 
 export const DraggableTopping = ({ id, index }: IDraggableToppingProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const topping = useAppSelector((state) => getIngredientItemById(state, id));
+  const topping = useAppSelector(getIngredientItemById(id));
   const dispatch = useAppDispatch();
 
   const handleOnDelete = (index: number) => {

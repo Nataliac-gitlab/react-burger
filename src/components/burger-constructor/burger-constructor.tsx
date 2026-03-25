@@ -8,7 +8,7 @@ import {
 import styles from "./burger-constructor.module.css";
 import { Modal } from "../shared/modal/modal";
 import { OrderDetails } from "./order-details";
-import { useAppDispatch, useAppSelector } from "../../servives/hooks";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import {
   getBun,
   getToppingIdsAndUuids,
@@ -156,6 +156,7 @@ export const BurgerConstructor = () => {
             setIsOpen(false);
             dispatch(clearBurgerConstructor());
           }}
+          size={"small"}
         >
           <OrderDetails />
         </Modal>
