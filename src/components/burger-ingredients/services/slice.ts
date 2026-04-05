@@ -9,7 +9,7 @@ export type BurgerIngredientsState = {
   ingredientsById: IngredientsById;
 };
 
-const initialState: BurgerIngredientsState = {
+export const initialState: BurgerIngredientsState = {
   ingredientsById: {},
 };
 
