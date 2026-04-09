@@ -37,11 +37,12 @@ export const IngredientItem = ({ id }: IIngredientItemProps) => {
   return (
     <div style={{ opacity: isDrag ? 0.5 : 1 }}>
       {count !== 0 && (
-        <div className={styles.counter}>
+        <div className={styles.counter} data-testid={`counter_${id}`}>
           <Counter count={count} size="small" />
         </div>
       )}
       <div
+        data-testid={`ingredient_${id}`}
         className={styles.item}
         ref={(node) => {
           dragRef(node);

@@ -16,7 +16,7 @@ export const IngredientDetails = () => {
   const { image_large, name, calories, proteins, fat, carbohydrates } = details;
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid={`details_${id}`}>
       <div className={styles.title}>Детали ингредиента</div>
       <img src={image_large} alt={name}></img>
       <h2 className={styles.name}>{name}</h2>
