@@ -1,9 +1,13 @@
+import { testUrl, selectors } from "./constants";
+import "../support/commands";
+
 describe("burger ingredients modal test", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
     cy.intercept("GET", "api/ingredients", {
       fixture: "data/ingredients.json",
-    });
+    }).as("getIngredients");
+    cy.visit(testUrl);
+    cy.wait("@getIngredients");
     cy.intercept("POST", "api/orders", {
       fixture: "data/order.json",
     });
@@ -24,24 +28,16 @@ describe("burger ingredients modal test", () => {
     const topping2 = "643d69a5c3f7b9001cfa093e";
     const order = "65536";
 
-    cy.get(`[data-testid=ingredient_${bunId}]`).as("bun");
-    cy.get("@bun").trigger("dragstart");
-    cy.get("[data-testid=burger_constructor]").trigger("drop");
-    cy.get(`[data-testid=counter_${bunId}]`).contains("2").should("exist");
-    cy.get(`[data-testid=top_bun_${bunId}]`).should("exist");
-    cy.get(`[data-testid=bottom_bun_${bunId}]`).should("exist");
-
-    cy.get(`[data-testid=ingredient_${topping1}]`).as("topping1");
-    cy.get("@topping1").trigger("dragstart");
-    cy.get("[data-testid=burger_constructor]").trigger("drop");
-    cy.get(`[data-testid=counter_${topping1}]`).contains("1").should("exist");
-    cy.get(`[data-testid=topping_${topping1}]`).should("exist");
-
-    cy.get(`[data-testid=ingredient_${topping2}]`).as("topping2");
-    cy.get("@topping2").trigger("dragstart");
-    cy.get("[data-testid=burger_constructor]").trigger("drop");
-    cy.get(`[data-testid=counter_${topping2}]`).contains("1").should("exist");
-    cy.get(`[data-testid=topping_${topping2}]`).should("exist");
+    cy.dragToConstructor(bunId);
+    cy.get(selectors.counter(bunId)).contains("2");
+    cy.get(selectors.topBun(bunId)).should("exist");
+    cy.get(selectors.bottomBun(bunId)).should("exist");
+    cy.dragToConstructor(topping1);
+    cy.get(selectors.counter(topping1)).contains("1").should("exist");
+    cy.get(selectors.topping(topping1)).should("exist");
+    cy.dragToConstructor(topping2);
+    cy.get(selectors.counter(topping2)).contains("1").should("exist");
+    cy.get(selectors.topping(topping2)).should("exist");
 
     cy.get("[data-testid=create_order]").click();
     cy.get(`[class^=modal_header] [xmlns="http://www.w3.org/2000/svg"]`)

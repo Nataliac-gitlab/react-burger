@@ -1,3 +1,4 @@
+import { selectors } from "../e2e/constants";
 /// <reference types="cypress" />
 // ***********************************************
 // This example commands.ts shows you how to
@@ -12,6 +13,25 @@
 //
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
+
+Cypress.Commands.add("dragToConstructor", (ingredientId: string) => {
+  cy.get(selectors.ingredient(ingredientId)).trigger("dragstart");
+  cy.get(selectors.constructor).trigger("drop");
+});
+
+Cypress.Commands.add("openIngredientModal", (id: string) => {
+  cy.get(selectors.ingredient(id)).as("ingredient");
+  cy.get("@ingredient").click();
+  cy.get("#modals").should("exist");
+});
+
+Cypress.Commands.add("assertIngredientModalIsPresent", (id: string) => {
+  cy.get(selectors.details(id)).should("exist");
+});
+
+Cypress.Commands.add("assertIngredientModalIsNotPresent", (id: string) => {
+  cy.get(selectors.details(id)).should("not.exist");
+});
 //
 //
 // -- This is a child command --
