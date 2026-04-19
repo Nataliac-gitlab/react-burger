@@ -72,6 +72,7 @@ export const BurgerConstructor = () => {
 
   return (
     <div
+      data-testid="burger_constructor"
       className={styles.burger_constructor}
       ref={(node) => {
         dropTarget(node);
@@ -86,7 +87,7 @@ export const BurgerConstructor = () => {
       )}
 
       {bun && (
-        <div className={styles.element}>
+        <div className={styles.element} data-testid={`top_bun_${bun._id}`}>
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -108,14 +109,16 @@ export const BurgerConstructor = () => {
           {toppingIdsUuids.map(
             (item, index) =>
               item && (
-                <DraggableTopping key={item.uuid} index={index} id={item.id} />
+                <div key={item.uuid} data-testid={`topping_${item.id}`}>
+                  <DraggableTopping index={index} id={item.id} />
+                </div>
               ),
           )}
         </div>
       </div>
 
       {bun && (
-        <div className={styles.element}>
+        <div className={styles.element} data-testid={`bottom_bun_${bun._id}`}>
           <ConstructorElement
             type="bottom"
             isLocked={true}
@@ -145,6 +148,7 @@ export const BurgerConstructor = () => {
           extraClass="ml-2"
           onClick={handleOnClickOrder}
           disabled={!bun}
+          data-testid="create_order"
         >
           Оформить заказ
         </Button>

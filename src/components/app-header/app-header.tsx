@@ -8,8 +8,9 @@ import {
 import { HeaderItem } from "./header-item";
 import styles from "./app-header.module.css";
 import { NavLink } from "react-router-dom";
+import { TIconProps } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils";
 
-type TIconProps = { type: "primary" | "secondary" };
+//type TIconProps = { type: "primary" | "secondary" | "error" };
 
 export const AppHeader = () => {
   const renderNavLink = ({

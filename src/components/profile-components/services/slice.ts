@@ -10,7 +10,7 @@ type ProfileState = {
   user: UserType | null;
 };
 
-const initialState: ProfileState = {
+export const initialState: ProfileState = {
   user: null,
 };
 

@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-interface Topping {
+export interface Topping {
   id: string;
   uuid: string;
 }
@@ -12,7 +12,7 @@ export type BurgerConstructorState = {
   order: number | null;
 };
 
-const initialState: BurgerConstructorState = {
+export const initialState: BurgerConstructorState = {
   bun: "",
   toppings: [],
   order: null,
@@ -30,8 +30,7 @@ const burgerConstructorSlice = createSlice({
         state.toppings = [...state.toppings, payload];
       },
       prepare: (id: string) => {
-        const uuid = crypto.randomUUID();
-        return { payload: { id, uuid } };
+        return { payload: { id, uuid: nanoid() } };
       },
     },
 
@@ -52,7 +51,7 @@ const burgerConstructorSlice = createSlice({
       state.order = payload;
     },
     removeOrder: (state) => {
-      state.order = 0;
+      state.order = null;
     },
     clearBurgerConstructor: (state) => {
       Object.assign(state, initialState);

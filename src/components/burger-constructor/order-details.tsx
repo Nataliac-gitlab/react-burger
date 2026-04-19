@@ -29,7 +29,9 @@ export const OrderDetails = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.order}>{isSuccess && orderText}</div>
+      <div className={styles.order} data-testid="order">
+        {isSuccess && orderText}
+      </div>
       {isError && (
         <div className={styles.identifier}>Ошибка создания заказа</div>
       )}

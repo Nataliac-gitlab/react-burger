@@ -53,7 +53,7 @@ export const BurgerIngredients = () => {
   return (
     <div className={styles.ingredients}>
       <div className={styles.title}>
-        <p>Собери бургер</p>
+        <p data-testid="build_burger">Собери бургер</p>
       </div>
       <div className={styles.menu}>
         {ingredientTypesArray.map((type) => (
