@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface Topping {
@@ -30,8 +30,7 @@ const burgerConstructorSlice = createSlice({
         state.toppings = [...state.toppings, payload];
       },
       prepare: (id: string) => {
-        const uuid = crypto.randomUUID();
-        return { payload: { id, uuid } };
+        return { payload: { id, uuid: nanoid() } };
       },
     },
 

@@ -109,12 +109,8 @@ export const BurgerConstructor = () => {
           {toppingIdsUuids.map(
             (item, index) =>
               item && (
-                <div data-testid={`topping_${item.id}`}>
-                  <DraggableTopping
-                    key={item.uuid}
-                    index={index}
-                    id={item.id}
-                  />
+                <div key={item.uuid} data-testid={`topping_${item.id}`}>
+                  <DraggableTopping index={index} id={item.id} />
                 </div>
               ),
           )}
